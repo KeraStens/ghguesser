@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1-river-bend",
+    "image": "assets/screenshots/1-river-bend.svg",
+    "name": "River Bend",
+    "x": 0.21,
+    "y": 0.30
+  },
+  {
+    "id": "2-stone-ruins",
+    "image": "assets/screenshots/2-stone-ruins.svg",
+    "name": "Stone Ruins",
+    "x": 0.42,
+    "y": 0.365
+  },
+  {
+    "id": "3-cave-mouth",
+    "image": "assets/screenshots/3-cave-mouth.svg",
+    "name": "Cave Mouth",
+    "x": 0.50,
+    "y": 0.52
+  },
+  {
+    "id": "4-swamp-flats",
+    "image": "assets/screenshots/4-swamp-flats.svg",
+    "name": "Swamp Flats",
+    "x": 0.64,
+    "y": 0.69
+  },
+  {
+    "id": "5-cliff-view",
+    "image": "assets/screenshots/5-cliff-view.svg",
+    "name": "Cliff View",
+    "x": 0.78,
+    "y": 0.60
+  },
+  {
+    "id": "6-camp-clearing",
+    "image": "assets/screenshots/6-camp-clearing.svg",
+    "name": "Camp Clearing",
+    "x": 0.70,
+    "y": 0.90
+  }
+]

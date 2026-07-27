@@ -1,0 +1,81 @@
+<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="jungleBase" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#1f3324"/>
+      <stop offset="60%" stop-color="#152318"/>
+      <stop offset="100%" stop-color="#0d160f"/>
+    </radialGradient>
+    <filter id="paperGrain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" result="noise"/>
+      <feColorMatrix in="noise" type="matrix"
+        values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0"/>
+    </filter>
+    <pattern id="canopyDots" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#2a4530" opacity="0.5"/>
+      <circle cx="10" cy="9" r="0.9" fill="#26402c" opacity="0.4"/>
+    </pattern>
+  </defs>
+
+  <!-- base jungle field -->
+  <rect x="0" y="0" width="1000" height="1000" fill="url(#jungleBase)"/>
+  <rect x="0" y="0" width="1000" height="1000" fill="url(#canopyDots)"/>
+  <rect x="0" y="0" width="1000" height="1000" filter="url(#paperGrain)"/>
+
+  <!-- uncharted interior zone (fogged) -->
+  <rect x="0" y="0" width="1000" height="1000" fill="#06090a" opacity="0.35"/>
+
+  <!-- the known expedition trail: crash site -> extraction point -->
+  <path id="trailPath" d="M 120,150
+           C 220,130 260,230 210,300
+           C 150,380 260,430 340,400
+           C 430,365 420,480 500,520
+           C 590,565 560,660 640,690
+           C 720,720 700,610 780,600
+           C 850,592 860,700 830,780
+           C 800,850 720,860 700,900"
+        fill="none" stroke="#5a6b45" stroke-width="46" stroke-linecap="round" opacity="0.28"/>
+  <path d="M 120,150
+           C 220,130 260,230 210,300
+           C 150,380 260,430 340,400
+           C 430,365 420,480 500,520
+           C 590,565 560,660 640,690
+           C 720,720 700,610 780,600
+           C 850,592 860,700 830,780
+           C 800,850 720,860 700,900"
+        fill="none" stroke="#8a7f5c" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- spawn perimeter (dashed ring around crash site) -->
+  <circle cx="120" cy="150" r="70" fill="none" stroke="#c98a4b" stroke-width="2.5" stroke-dasharray="6 8" opacity="0.75"/>
+  <text x="120" y="60" text-anchor="middle" fill="#c98a4b" font-family="monospace" font-size="15" letter-spacing="2" opacity="0.85">SPAWN PERIMETER</text>
+
+  <!-- crash site marker (start) -->
+  <g transform="translate(120,150)">
+    <circle r="9" fill="#b23a2a" stroke="#f2e6c9" stroke-width="2"/>
+    <path d="M -14,-20 L 14,4 M 14,-20 L -14,4" stroke="#f2e6c9" stroke-width="2.4" opacity="0.85"/>
+  </g>
+  <text x="120" y="195" text-anchor="middle" fill="#f2e6c9" font-family="monospace" font-size="17" letter-spacing="1">CRASH SITE</text>
+
+  <!-- extraction point marker (end) -->
+  <g transform="translate(700,900)">
+    <circle r="10" fill="#2f6e5c" stroke="#f2e6c9" stroke-width="2"/>
+    <path d="M 0,-16 L 0,16 M -13,-9 L 13,9 M 13,-9 L -13,9" stroke="#f2e6c9" stroke-width="2" opacity="0.85"/>
+  </g>
+  <text x="700" y="935" text-anchor="middle" fill="#f2e6c9" font-family="monospace" font-size="17" letter-spacing="1">EXTRACTION POINT</text>
+
+  <!-- interior zone label -->
+  <text x="500" y="500" text-anchor="middle" fill="#4a5c40" font-family="monospace" font-size="20" letter-spacing="4" opacity="0.4" transform="rotate(-8 500 500)">UNCHARTED INTERIOR</text>
+
+  <!-- compass rose (signature element) -->
+  <g transform="translate(910,90)" opacity="0.9">
+    <circle r="46" fill="none" stroke="#c98a4b" stroke-width="1.5"/>
+    <circle r="30" fill="none" stroke="#c98a4b" stroke-width="1"/>
+    <path d="M 0,-46 L 6,-10 L 0,0 L -6,-10 Z" fill="#c98a4b"/>
+    <path d="M 0,46 L 6,10 L 0,0 L -6,10 Z" fill="#5c6b4d"/>
+    <path d="M -46,0 L -10,-6 L 0,0 L -10,6 Z" fill="#5c6b4d"/>
+    <path d="M 46,0 L 10,-6 L 0,0 L 10,6 Z" fill="#5c6b4d"/>
+    <text y="-54" text-anchor="middle" fill="#c98a4b" font-family="monospace" font-size="14">N</text>
+  </g>
+
+  <!-- torn parchment border -->
+  <rect x="4" y="4" width="992" height="992" fill="none" stroke="#3a2e1f" stroke-width="6" opacity="0.5"/>
+</svg>
