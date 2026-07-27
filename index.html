@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Hell: Picture Guesser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Special+Elite&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- LANDING -->
+<section id="screen-landing" class="screen active landing">
+  <div class="landing-inner">
+    <p class="eyebrow">FIELD JOURNAL — LOCATION RECALL EXERCISE</p>
+    <h1 class="hero-title">GREEN HELL<br><span>PICTURE GUESSER</span></h1>
+    <p class="hero-sub">You're shown a photo from the expedition. Pin where it was taken. Three tries. Every pin gets you a read on hot or cold.</p>
+    <div class="landing-actions">
+      <button id="solo-btn" class="btn btn-primary">Play Solo</button>
+      <button id="mp-btn" class="btn btn-secondary">Play with Friends</button>
+    </div>
+    <p class="landing-note">5 pictures per run · 3 pins each · closer pins score higher</p>
+  </div>
+</section>
+
+<!-- MULTIPLAYER SETUP -->
+<section id="screen-mp-setup" class="screen setup-screen">
+  <div class="panel">
+    <button class="btn-link" id="back-to-landing-1">&larr; back</button>
+    <h2 class="panel-title">Squad Up</h2>
+    <label class="field-label">Your name
+      <input id="mp-name-input" type="text" maxlength="18" placeholder="Ranger" />
+    </label>
+
+    <div class="setup-split">
+      <div class="setup-col">
+        <h3>Host a room</h3>
+        <p class="muted">Get a code, share it, everyone sees the same pictures.</p>
+        <button id="create-room-btn" class="btn btn-primary btn-block">Create Room</button>
+      </div>
+      <div class="setup-col">
+        <h3>Join a room</h3>
+        <label class="field-label">Room code
+          <input id="mp-code-input" type="text" maxlength="5" placeholder="A1B2C" style="text-transform:uppercase" />
+        </label>
+        <button id="join-room-btn" class="btn btn-secondary btn-block">Join Room</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MULTIPLAYER LOBBY -->
+<section id="screen-mp-lobby" class="screen setup-screen">
+  <div class="panel">
+    <button class="btn-link" id="back-to-landing-2">&larr; leave</button>
+    <h2 class="panel-title">Room <span id="lobby-code" class="room-code"></span></h2>
+    <ul id="lobby-players" class="lobby-players"></ul>
+    <button id="lobby-start-btn" class="btn btn-primary btn-block">Start Expedition</button>
+    <p id="lobby-wait-msg" class="muted">Waiting for the host to start…</p>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="screen-game" class="screen game-screen">
+  <header class="game-hud">
+    <span id="round-counter" class="hud-tag"></span>
+    <span id="pins-counter" class="hud-tag"></span>
+  </header>
+
+  <div class="game-body">
+    <div class="scene-panel">
+      <div class="polaroid">
+        <img id="scene-img" src="" alt="Expedition photo" />
+      </div>
+      <div id="tip-box" class="tip-box"></div>
+    </div>
+
+    <div id="map-container" class="map-panel"></div>
+  </div>
+
+  <button id="next-round-btn" class="btn btn-primary next-round-btn">Next picture</button>
+</section>
+
+<!-- FINAL / RESULTS -->
+<section id="screen-final" class="screen setup-screen">
+  <div class="panel">
+    <h2 id="final-title" class="panel-title">Expedition Complete</h2>
+    <p id="final-score" class="final-score"></p>
+    <ul id="final-breakdown" class="final-breakdown"></ul>
+
+    <div id="mp-leaderboard-wrap" style="display:none">
+      <h3>Leaderboard</h3>
+      <ul id="mp-leaderboard" class="lobby-players"></ul>
+      <button id="play-again-final-btn" class="btn btn-secondary btn-block">Back to menu</button>
+    </div>
+
+    <button id="play-again-btn" class="btn btn-primary btn-block">Play Again</button>
+  </div>
+</section>
+
+<script src="js/firebase-config.js"></script>
+<script src="js/game.js"></script>
+<script src="js/map.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
