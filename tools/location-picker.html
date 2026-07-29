@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Location Picker — Green Hell: Picture Guesser</title>
+<style>
+  :root {
+    --bg: #0b0f0b; --panel: #131f16; --parchment: #f2e6c9; --amber: #c98a4b;
+    --teal: #2f6e5c; --blood: #b23a2a; --khaki: #8a7f5c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--parchment);
+    font-family: 'Courier New', monospace; padding: 20px;
+  }
+  h1 { font-size: 20px; color: var(--amber); margin-bottom: 4px; }
+  .sub { color: var(--khaki); font-size: 13px; margin-bottom: 20px; }
+  .layout { display: grid; grid-template-columns: 1fr 380px; gap: 20px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel); border: 1px solid rgba(202,182,138,0.2);
+    border-radius: 6px; padding: 16px; margin-bottom: 16px;
+  }
+  .panel h2 { font-size: 14px; color: var(--amber); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .map-wrap { position: relative; width: 100%; border: 1px solid rgba(202,182,138,0.25); border-radius: 4px; overflow: hidden; }
+  .map-wrap img { width: 100%; display: block; cursor: crosshair; }
+  .map-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .marker circle { fill: var(--amber); stroke: var(--parchment); stroke-width: 2; }
+  .marker text { fill: #0b0f0b; font-size: 13px; font-weight: bold; text-anchor: middle; }
+  .placed circle { fill: var(--teal); stroke: var(--parchment); stroke-width: 1.5; opacity: 0.85; }
+  .placed text { fill: var(--parchment); font-size: 10px; }
+  .line-marker circle { fill: #ffcc66; stroke: #0b0f0b; stroke-width: 1.5; }
+  .track-line { stroke-width: 5; }
+  .track-line-start { stroke: #f2e6c9; }
+  .track-line-finish { stroke: var(--blood); }
+  .track-line-label { font-family: monospace; font-size: 13px; font-weight: bold; text-anchor: middle; }
+  .track-line-label-start { fill: #f2e6c9; }
+  .track-line-label-finish { fill: var(--blood); }
+
+  label { display: block; font-size: 12px; color: var(--khaki); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  input[type=text], input[type=number], textarea {
+    width: 100%; background: var(--bg); border: 1px solid rgba(202,182,138,0.3);
+    color: var(--parchment); padding: 8px 10px; border-radius: 3px; font-family: inherit; font-size: 13px;
+  }
+  textarea { min-height: 100px; resize: vertical; }
+  input[type=file] { color: var(--parchment); font-size: 12px; }
+
+  button {
+    background: var(--blood); color: var(--parchment); border: none; border-radius: 3px;
+    padding: 9px 16px; font-family: inherit; font-size: 12px; letter-spacing: 1px;
+    text-transform: uppercase; cursor: pointer; margin-top: 10px;
+  }
+  button:hover { filter: brightness(1.15); }
+  button.secondary { background: transparent; border: 1px solid var(--khaki); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button + button { margin-left: 8px; }
+
+  .shot-preview { max-width: 100%; border-radius: 3px; margin-top: 8px; border: 1px solid rgba(202,182,138,0.2); }
+  .coord-readout { font-size: 13px; color: var(--teal); margin-top: 8px; }
+  .line-status { font-size: 12px; color: var(--parchment-dim, #cdbf9a); margin-top: 6px; line-height: 1.6; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid rgba(202,182,138,0.15); }
+  th { color: var(--khaki); text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+  td.num { color: var(--teal); }
+  .rm-btn { background: none; border: none; color: var(--blood); cursor: pointer; font-size: 14px; padding: 0; margin: 0; }
+
+  .hint { font-size: 12px; color: var(--khaki); line-height: 1.6; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<h1>LOCATION PICKER</h1>
+<p class="sub">Click the map to place a screenshot's true coordinate → add it to the list → export locations.json</p>
+
+<div class="layout">
+  <!-- LEFT: map -->
+  <div>
+    <div class="panel">
+      <h2>1. Map</h2>
+      <label>Use a different map image (optional — defaults to the built-in track map)</label>
+      <input type="file" id="map-file" accept="image/*" />
+      <div class="map-wrap" id="map-wrap">
+        <img id="map-img" src="../assets/map-nurburgring.svg" alt="map" />
+        <svg id="static-layer" viewBox="0 0 1400 1000" preserveAspectRatio="none"></svg>
+        <svg id="marker-layer" viewBox="0 0 1400 1000" preserveAspectRatio="none"></svg>
+      </div>
+      <p class="hint" id="mode-hint">Click anywhere on the map to set the pending screenshot's coordinate. Teal dots are entries already added. Selecting multiple screenshots queues them — click the map, hit "Add & next", it auto-advances to the next one.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Start / Finish Lines</h2>
+      <div class="line-status" id="line-status">Start line: not set &nbsp;·&nbsp; Finish line: not set</div>
+      <button id="pick-start-btn" class="secondary">Pick start line</button>
+      <button id="pick-finish-btn" class="secondary">Pick finish line</button>
+      <button id="clear-lines-btn" class="secondary">Clear both</button>
+      <p class="hint">Click the button, then click two points on the map (one on each edge of the track) to draw the line across it.</p>
+      <button id="copy-track-btn" class="secondary">Copy track-config.json</button>
+      <button id="download-track-btn" class="secondary">Download track-config.json</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: controls -->
+  <div>
+    <div class="panel">
+      <h2>2. Screenshot <span id="queue-progress" style="color:var(--khaki);font-weight:normal;text-transform:none;letter-spacing:0"></span></h2>
+      <label>Choose screenshot(s) — select many at once to queue them</label>
+      <input type="file" id="shot-file" accept="image/*" multiple />
+      <img id="shot-preview" class="shot-preview" style="display:none" />
+
+      <label>ID (used internally, no spaces)</label>
+      <input type="text" id="shot-id" placeholder="e.g. 7-adenauer-forst" />
+
+      <label>Display name</label>
+      <input type="text" id="shot-name" placeholder="e.g. Adenauer Forst" />
+
+      <label>Image path (where this file will live in your repo)</label>
+      <input type="text" id="shot-path" placeholder="assets/screenshots/your-file.jpg" />
+
+      <div class="coord-readout" id="coord-readout">Click the map to set coordinates — none set yet.</div>
+
+      <button id="add-btn" disabled>Add &amp; next</button>
+      <button id="skip-btn" class="secondary" style="display:none">Skip this one</button>
+    </div>
+
+    <div class="panel">
+      <h2>3. List (<span id="count">0</span>)</h2>
+      <table>
+        <thead><tr><th>ID</th><th>X</th><th>Y</th><th></th></tr></thead>
+        <tbody id="entries-body"></tbody>
+      </table>
+      <button id="copy-btn" class="secondary">Copy JSON</button>
+      <button id="download-btn" class="secondary">Download locations.json</button>
+    </div>
+
+    <div class="panel">
+      <h2>Load existing data (optional)</h2>
+      <label>locations.json</label>
+      <textarea id="load-area" placeholder="Paste your current locations.json here to keep editing it"></textarea>
+      <button id="load-btn" class="secondary">Load locations</button>
+      <label>track-config.json</label>
+      <textarea id="load-track-area" placeholder="Paste your current track-config.json here to keep editing it"></textarea>
+      <button id="load-track-btn" class="secondary">Load track lines</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const VIEW_W = 1400, VIEW_H = 1000;
+
+const mapImg = document.getElementById('map-img');
+const markerLayer = document.getElementById('marker-layer');
+const staticLayer = document.getElementById('static-layer');
+const shotFile = document.getElementById('shot-file');
+const shotPreview = document.getElementById('shot-preview');
+const shotId = document.getElementById('shot-id');
+const shotName = document.getElementById('shot-name');
+const shotPath = document.getElementById('shot-path');
+const coordReadout = document.getElementById('coord-readout');
+const addBtn = document.getElementById('add-btn');
+const skipBtn = document.getElementById('skip-btn');
+const entriesBody = document.getElementById('entries-body');
+const countEl = document.getElementById('count');
+const queueProgress = document.getElementById('queue-progress');
+const modeHint = document.getElementById('mode-hint');
+const lineStatus = document.getElementById('line-status');
+
+let pendingCoord = null; // {x, y} normalized
+let entries = [];
+let queue = [];      // File objects waiting to be placed
+let queueIndex = 0;  // which one is currently being placed
+
+let trackConfig = { startLine: null, finishLine: null };
+let linePickMode = null;   // null | 'start1' | 'start2' | 'finish1' | 'finish2'
+let linePickFirstPt = null; // {x,y} while awaiting the second click
+
+document.getElementById('map-file').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) mapImg.src = URL.createObjectURL(file);
+});
+
+function uniqueId(base) {
+  let candidate = base;
+  let n = 2;
+  const existing = new Set(entries.map(e => e.id));
+  while (existing.has(candidate)) {
+    candidate = `${base}-${n}`;
+    n += 1;
+  }
+  return candidate;
+}
+
+shotFile.addEventListener('change', (e) => {
+  queue = Array.from(e.target.files);
+  queueIndex = 0;
+  loadCurrentQueueItem();
+});
+
+function loadCurrentQueueItem() {
+  if (queueIndex >= queue.length) {
+    queueProgress.textContent = queue.length ? '— all placed' : '';
+    shotPreview.style.display = 'none';
+    shotId.value = ''; shotName.value = ''; shotPath.value = '';
+    skipBtn.style.display = 'none';
+    updateAddState();
+    return;
+  }
+  const file = queue[queueIndex];
+  queueProgress.textContent = `— ${queueIndex + 1} of ${queue.length}: ${file.name}`;
+  shotPreview.src = URL.createObjectURL(file);
+  shotPreview.style.display = 'block';
+
+  const base = file.name.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  shotId.value = uniqueId(base);
+  shotName.value = '';
+  shotPath.value = 'assets/screenshots/' + file.name;
+  pendingCoord = null;
+  coordReadout.textContent = 'Click the map to set coordinates — none set yet.';
+  skipBtn.style.display = queue.length > 1 ? 'inline-block' : 'none';
+  redrawMarkers();
+  updateAddState();
+}
+
+mapImg.addEventListener('click', (e) => {
+  const rect = mapImg.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width;
+  const y = (e.clientY - rect.top) / rect.height;
+
+  if (linePickMode) {
+    handleLinePickClick(x, y);
+    return;
+  }
+
+  pendingCoord = { x, y };
+  coordReadout.textContent = `Pending coordinate: x=${x.toFixed(3)}, y=${y.toFixed(3)}`;
+  redrawMarkers();
+  updateAddState();
+});
+
+[shotId, shotName].forEach(elx => elx.addEventListener('input', updateAddState));
+
+function updateAddState() {
+  addBtn.disabled = !(pendingCoord && shotId.value.trim());
+}
+
+function redrawMarkers() {
+  markerLayer.innerHTML = '';
+  entries.forEach(en => {
+    markerLayer.innerHTML += `<g class="placed" transform="translate(${en.x*VIEW_W},${en.y*VIEW_H})">
+      <circle r="10"/></g>`;
+  });
+  if (pendingCoord) {
+    markerLayer.innerHTML += `<g class="marker" transform="translate(${pendingCoord.x*VIEW_W},${pendingCoord.y*VIEW_H})">
+      <circle r="13"/><text dy="5">?</text></g>`;
+  }
+  if (linePickFirstPt) {
+    markerLayer.innerHTML += `<g class="line-marker" transform="translate(${linePickFirstPt.x*VIEW_W},${linePickFirstPt.y*VIEW_H})">
+      <circle r="7"/></g>`;
+  }
+}
+
+skipBtn.addEventListener('click', () => {
+  queueIndex += 1;
+  loadCurrentQueueItem();
+});
+
+document.getElementById('add-btn').addEventListener('click', () => {
+  if (!pendingCoord || !shotId.value.trim()) return;
+  entries.push({
+    id: uniqueId(shotId.value.trim()),
+    image: shotPath.value.trim() || `assets/screenshots/${shotId.value.trim()}.jpg`,
+    name: shotName.value.trim() || shotId.value.trim(),
+    x: Math.round(pendingCoord.x * 1000) / 1000,
+    y: Math.round(pendingCoord.y * 1000) / 1000,
+  });
+  renderTable();
+  redrawMarkers();
+
+  if (queue.length) {
+    queueIndex += 1;
+    loadCurrentQueueItem();
+  } else {
+    pendingCoord = null;
+    shotId.value = ''; shotName.value = ''; shotPath.value = '';
+    shotFile.value = ''; shotPreview.style.display = 'none';
+    coordReadout.textContent = 'Click the map to set coordinates — none set yet.';
+    updateAddState();
+  }
+});
+
+function renderTable() {
+  countEl.textContent = entries.length;
+  entriesBody.innerHTML = entries.map((en, i) => `
+    <tr>
+      <td>${en.id}</td>
+      <td class="num">${en.x}</td>
+      <td class="num">${en.y}</td>
+      <td><button class="rm-btn" data-i="${i}" title="remove">✕</button></td>
+    </tr>
+  `).join('');
+  entriesBody.querySelectorAll('.rm-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      entries.splice(Number(btn.dataset.i), 1);
+      renderTable();
+      redrawMarkers();
+    });
+  });
+}
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(JSON.stringify(entries, null, 2));
+  flashButton('copy-btn');
+});
+
+document.getElementById('download-btn').addEventListener('click', () => {
+  downloadJSON(entries, 'locations.json');
+});
+
+document.getElementById('load-btn').addEventListener('click', () => {
+  try {
+    const parsed = JSON.parse(document.getElementById('load-area').value);
+    if (!Array.isArray(parsed)) throw new Error('Not an array');
+    entries = parsed;
+    renderTable();
+    redrawMarkers();
+  } catch (err) {
+    alert('Could not parse that JSON: ' + err.message);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// START / FINISH LINE PICKING
+// ---------------------------------------------------------------------------
+function handleLinePickClick(x, y) {
+  if (linePickMode === 'start1' || linePickMode === 'finish1') {
+    linePickFirstPt = { x, y };
+    linePickMode = linePickMode === 'start1' ? 'start2' : 'finish2';
+    modeHint.textContent = `Click the second point to finish the ${linePickMode === 'start2' ? 'start' : 'finish'} line.`;
+    redrawMarkers();
+    return;
+  }
+  if (linePickMode === 'start2' || linePickMode === 'finish2') {
+    const kind = linePickMode === 'start2' ? 'startLine' : 'finishLine';
+    trackConfig[kind] = {
+      x1: round3(linePickFirstPt.x), y1: round3(linePickFirstPt.y),
+      x2: round3(x), y2: round3(y),
+    };
+    linePickMode = null;
+    linePickFirstPt = null;
+    resetModeHint();
+    redrawMarkers();
+    redrawStaticLayer();
+    updateLineStatus();
+  }
+}
+
+function round3(n) { return Math.round(n * 1000) / 1000; }
+
+function resetModeHint() {
+  modeHint.textContent = 'Click anywhere on the map to set the pending screenshot\'s coordinate. Teal dots are entries already added. Selecting multiple screenshots queues them — click the map, hit "Add & next", it auto-advances to the next one.';
+}
+
+document.getElementById('pick-start-btn').addEventListener('click', () => {
+  linePickMode = 'start1';
+  linePickFirstPt = null;
+  modeHint.textContent = 'Click the first point of the START line on the map.';
+});
+document.getElementById('pick-finish-btn').addEventListener('click', () => {
+  linePickMode = 'finish1';
+  linePickFirstPt = null;
+  modeHint.textContent = 'Click the first point of the FINISH line on the map.';
+});
+document.getElementById('clear-lines-btn').addEventListener('click', () => {
+  trackConfig = { startLine: null, finishLine: null };
+  linePickMode = null;
+  linePickFirstPt = null;
+  resetModeHint();
+  redrawStaticLayer();
+  updateLineStatus();
+  redrawMarkers();
+});
+
+function updateLineStatus() {
+  const s = trackConfig.startLine ? 'set' : 'not set';
+  const f = trackConfig.finishLine ? 'set' : 'not set';
+  lineStatus.textContent = `Start line: ${s} · Finish line: ${f}`;
+}
+
+function redrawStaticLayer() {
+  staticLayer.innerHTML = '';
+  if (trackConfig.startLine) drawTrackLine(trackConfig.startLine, 'start');
+  if (trackConfig.finishLine) drawTrackLine(trackConfig.finishLine, 'finish');
+}
+
+function drawTrackLine(line, kind) {
+  const x1 = line.x1 * VIEW_W, y1 = line.y1 * VIEW_H;
+  const x2 = line.x2 * VIEW_W, y2 = line.y2 * VIEW_H;
+  staticLayer.innerHTML += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="track-line track-line-${kind}"/>
+    <text x="${(x1+x2)/2}" y="${Math.min(y1,y2)-10}" class="track-line-label track-line-label-${kind}">${kind === 'start' ? 'START' : 'FINISH'}</text>`;
+}
+
+document.getElementById('copy-track-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(JSON.stringify(trackConfig, null, 2));
+  flashButton('copy-track-btn');
+});
+document.getElementById('download-track-btn').addEventListener('click', () => {
+  downloadJSON(trackConfig, 'track-config.json');
+});
+document.getElementById('load-track-btn').addEventListener('click', () => {
+  try {
+    const parsed = JSON.parse(document.getElementById('load-track-area').value);
+    trackConfig = { startLine: parsed.startLine || null, finishLine: parsed.finishLine || null };
+    redrawStaticLayer();
+    updateLineStatus();
+  } catch (err) {
+    alert('Could not parse that JSON: ' + err.message);
+  }
+});
+
+function flashButton(id) {
+  const btn = document.getElementById(id);
+  const original = btn.textContent;
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = original, 1200);
+}
+
+function downloadJSON(data, filename) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+updateLineStatus();
+</script>
+</body>
+</html>

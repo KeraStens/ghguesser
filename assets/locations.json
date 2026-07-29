@@ -1,44 +1,44 @@
 [
   {
-    "id": "1-river-bend",
+    "id": "1-fuchsroehre",
     "image": "assets/screenshots/1-river-bend.svg",
-    "name": "River Bend",
-    "x": 0.21,
-    "y": 0.30
+    "name": "Fuchsröhre",
+    "x": 0.1863,
+    "y": 0.453
   },
   {
-    "id": "2-stone-ruins",
+    "id": "2-karussell",
     "image": "assets/screenshots/2-stone-ruins.svg",
-    "name": "Stone Ruins",
-    "x": 0.42,
-    "y": 0.365
+    "name": "Karussell",
+    "x": 0.7047,
+    "y": 0.2469
   },
   {
-    "id": "3-cave-mouth",
+    "id": "3-hohe-acht",
     "image": "assets/screenshots/3-cave-mouth.svg",
-    "name": "Cave Mouth",
-    "x": 0.50,
-    "y": 0.52
+    "name": "Hohe Acht",
+    "x": 0.7787,
+    "y": 0.1785
   },
   {
-    "id": "4-swamp-flats",
+    "id": "4-bruennchen",
     "image": "assets/screenshots/4-swamp-flats.svg",
-    "name": "Swamp Flats",
-    "x": 0.64,
-    "y": 0.69
+    "name": "Brünnchen",
+    "x": 0.8767,
+    "y": 0.3113
   },
   {
-    "id": "5-cliff-view",
+    "id": "5-doettinger-hoehe",
     "image": "assets/screenshots/5-cliff-view.svg",
-    "name": "Cliff View",
-    "x": 0.78,
-    "y": 0.60
+    "name": "Döttinger Höhe",
+    "x": 0.6002,
+    "y": 0.6965
   },
   {
-    "id": "6-camp-clearing",
+    "id": "6-aremberg",
     "image": "assets/screenshots/6-camp-clearing.svg",
-    "name": "Camp Clearing",
-    "x": 0.70,
-    "y": 0.90
+    "name": "Aremberg",
+    "x": 0.1423,
+    "y": 0.5029
   }
 ]

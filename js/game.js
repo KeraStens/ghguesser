@@ -4,9 +4,11 @@
 const CONFIG = {
   ROUNDS_PER_GAME: 5,        // how many pictures per playthrough
   PINS_PER_ROUND: 3,         // guesses allowed per picture
-  MAP_SPAN_METERS: 2000,     // flavor scale: how many meters the map's 0-1 span represents
+  MAP_ASPECT_W: 1400,        // must match the map SVG's viewBox width
+  MAP_ASPECT_H: 1000,        // must match the map SVG's viewBox height
+  MAP_SPAN_METERS: 21000,    // flavor scale: real Nordschleife lap is ~20.8km
   MAX_SCORE_PER_ROUND: 1000, // points for a perfect (0m) guess
-  SCORE_FALLOFF: 0.45,       // points lost per meter of error (linear falloff)
+  SCORE_FALLOFF: 0.09,       // points lost per meter of error (linear falloff)
 };
 
 // Bearing labels for compass-style tips
@@ -24,7 +26,12 @@ function bearingLabel(fromX, fromY, toX, toY) {
 }
 
 function normalizedDistance(ax, ay, bx, by) {
-  return Math.hypot(ax - bx, ay - by);
+  // weight by the map's real aspect ratio so a 0.05 error in x (on a wide map)
+  // isn't scored as equal to a 0.05 error in y (on the shorter axis)
+  const dx = (ax - bx) * CONFIG.MAP_ASPECT_W;
+  const dy = (ay - by) * CONFIG.MAP_ASPECT_H;
+  const diagonal = Math.hypot(CONFIG.MAP_ASPECT_W, CONFIG.MAP_ASPECT_H);
+  return Math.hypot(dx, dy) / diagonal;
 }
 
 function distanceToMeters(normDist) {
@@ -57,6 +64,13 @@ const TIP_LINES = {
 
 function pickLine(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function nearestCorners(corners, x, y, count = 2) {
+  return corners
+    .map(c => ({ ...c, distance: normalizedDistance(x, y, c.x, c.y) }))
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, count);
 }
 
 class RoundState {

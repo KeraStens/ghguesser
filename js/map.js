@@ -1,22 +1,56 @@
 class MapView {
-  constructor(containerEl) {
+  constructor(containerEl, opts = {}) {
     this.container = containerEl;
     this.onGuess = null; // callback(x, y) in normalized 0-1 coords
     this.locked = false;
+    this.viewW = opts.viewW || 1600;
+    this.viewH = opts.viewH || 1000;
+    this.mapSrc = opts.mapSrc || 'assets/map-nurburgring.svg';
     this._pinLayer = null;
+    this._staticLayer = null;
     this._buildBase();
   }
 
   _buildBase() {
     this.container.innerHTML = `
       <div class="map-frame">
-        <img class="map-img" src="assets/map-placeholder.svg" alt="Expedition map" draggable="false" />
-        <svg class="map-pin-layer" viewBox="0 0 1000 1000" preserveAspectRatio="none"></svg>
+        <img class="map-img" src="${this.mapSrc}" alt="Nordschleife track map" draggable="false" />
+        <svg class="map-static-layer" viewBox="0 0 ${this.viewW} ${this.viewH}" preserveAspectRatio="none"></svg>
+        <svg class="map-pin-layer" viewBox="0 0 ${this.viewW} ${this.viewH}" preserveAspectRatio="none"></svg>
       </div>
     `;
+    this._staticLayer = this.container.querySelector('.map-static-layer');
     this._pinLayer = this.container.querySelector('.map-pin-layer');
     const img = this.container.querySelector('.map-img');
     img.addEventListener('click', (e) => this._handleClick(e, img));
+  }
+
+  // draws the start/finish lines once — call after construction if you have track-config.json loaded
+  renderTrackConfig(config) {
+    if (!config || !this._staticLayer) return;
+    this._staticLayer.innerHTML = '';
+    if (config.startLine) this._drawTrackLine(config.startLine, 'start');
+    if (config.finishLine) this._drawTrackLine(config.finishLine, 'finish');
+  }
+
+  _drawTrackLine(line, kind) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const x1 = line.x1 * this.viewW, y1 = line.y1 * this.viewH;
+    const x2 = line.x2 * this.viewW, y2 = line.y2 * this.viewH;
+
+    const el = document.createElementNS(ns, 'line');
+    el.setAttribute('x1', x1); el.setAttribute('y1', y1);
+    el.setAttribute('x2', x2); el.setAttribute('y2', y2);
+    el.setAttribute('class', `track-line track-line-${kind}`);
+    this._staticLayer.appendChild(el);
+
+    const label = document.createElementNS(ns, 'text');
+    label.textContent = kind === 'start' ? 'START' : 'FINISH';
+    label.setAttribute('x', (x1 + x2) / 2);
+    label.setAttribute('y', Math.min(y1, y2) - 10);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('class', `track-line-label track-line-label-${kind}`);
+    this._staticLayer.appendChild(label);
   }
 
   _handleClick(e, img) {
@@ -41,13 +75,13 @@ class MapView {
   render(guesses, truth) {
     this.clearPins();
     guesses.forEach((g, i) => {
-      this._drawPin(g.x * 1000, g.y * 1000, i + 1, 'guess');
+      this._drawPin(g.x * this.viewW, g.y * this.viewH, i + 1, 'guess');
     });
     if (truth) {
-      this._drawPin(truth.x * 1000, truth.y * 1000, null, 'truth');
+      this._drawPin(truth.x * this.viewW, truth.y * this.viewH, null, 'truth');
       // connective lines from each guess to truth
       guesses.forEach(g => {
-        this._drawLine(g.x * 1000, g.y * 1000, truth.x * 1000, truth.y * 1000);
+        this._drawLine(g.x * this.viewW, g.y * this.viewH, truth.x * this.viewW, truth.y * this.viewH);
       });
     }
   }

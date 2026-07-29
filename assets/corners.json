@@ -1,0 +1,117 @@
+[
+  {
+    "name": "Start/Finish",
+    "x": 0.5244,
+    "y": 0.7599
+  },
+  {
+    "name": "Antoniusbuche",
+    "x": 0.4998,
+    "y": 0.7844
+  },
+  {
+    "name": "Tiergarten",
+    "x": 0.4598,
+    "y": 0.8286
+  },
+  {
+    "name": "Hatzenbach",
+    "x": 0.2891,
+    "y": 0.9167
+  },
+  {
+    "name": "Hocheichen",
+    "x": 0.2179,
+    "y": 0.8352
+  },
+  {
+    "name": "Flugplatz",
+    "x": 0.1781,
+    "y": 0.6911
+  },
+  {
+    "name": "Schwedenkreuz",
+    "x": 0.1444,
+    "y": 0.5526
+  },
+  {
+    "name": "Aremberg",
+    "x": 0.1423,
+    "y": 0.5029
+  },
+  {
+    "name": "Fuchsröhre",
+    "x": 0.1863,
+    "y": 0.453
+  },
+  {
+    "name": "Adenauer Forst",
+    "x": 0.2113,
+    "y": 0.3768
+  },
+  {
+    "name": "Kallenhard",
+    "x": 0.2579,
+    "y": 0.1803
+  },
+  {
+    "name": "Bergwerk",
+    "x": 0.4872,
+    "y": 0.0847
+  },
+  {
+    "name": "Steilstrecke",
+    "x": 0.7379,
+    "y": 0.2001
+  },
+  {
+    "name": "Karussell",
+    "x": 0.7047,
+    "y": 0.2469
+  },
+  {
+    "name": "Hohe Acht",
+    "x": 0.7787,
+    "y": 0.1785
+  },
+  {
+    "name": "Hedwigshöhe",
+    "x": 0.8308,
+    "y": 0.1719
+  },
+  {
+    "name": "Wippermann",
+    "x": 0.8597,
+    "y": 0.1992
+  },
+  {
+    "name": "Eschbach",
+    "x": 0.8648,
+    "y": 0.2615
+  },
+  {
+    "name": "Brünnchen",
+    "x": 0.8767,
+    "y": 0.3113
+  },
+  {
+    "name": "Pflanzgarten",
+    "x": 0.8299,
+    "y": 0.3751
+  },
+  {
+    "name": "Schwalbenschwanz",
+    "x": 0.6993,
+    "y": 0.5118
+  },
+  {
+    "name": "Galgenkopf",
+    "x": 0.6876,
+    "y": 0.6233
+  },
+  {
+    "name": "Döttinger Höhe",
+    "x": 0.6002,
+    "y": 0.6965
+  }
+]
