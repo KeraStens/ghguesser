@@ -43,6 +43,7 @@
     <div class="scene-panel">
       <div class="polaroid">
         <img id="scene-img" src="" alt="Expedition photo" />
+        <button type="button" id="scene-expand-btn" class="expand-btn" title="View full size" aria-label="View full size">&#10021;</button>
       </div>
       <div id="tip-box" class="tip-box"></div>
     </div>
@@ -62,6 +63,12 @@
     <button id="play-again-btn" class="btn btn-primary btn-block">Play Again</button>
   </div>
 </section>
+
+<!-- IMAGE LIGHTBOX (full-size screenshot view) -->
+<div id="image-lightbox" class="image-lightbox">
+  <button type="button" id="lightbox-close-btn" class="image-lightbox-close" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="Expedition photo, full size" />
+</div>
 
 <script src="js/game.js"></script>
 <script src="js/map.js"></script>

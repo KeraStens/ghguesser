@@ -10,8 +10,8 @@
     "id": "2-karussell",
     "image": "assets/screenshots/2-stone-ruins.svg",
     "name": "Karussell",
-    "x": 0.7047,
-    "y": 0.2469
+    "x": 0.7065,
+    "y": 0.2542
   },
   {
     "id": "3-hohe-acht",
@@ -38,7 +38,7 @@
     "id": "6-aremberg",
     "image": "assets/screenshots/6-camp-clearing.svg",
     "name": "Aremberg",
-    "x": 0.1423,
-    "y": 0.5029
+    "x": 0.1324,
+    "y": 0.5089
   }
 ]

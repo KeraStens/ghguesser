@@ -2,6 +2,7 @@ const state = {
   locations: [],
   corners: [],
   trackConfig: null,
+  trackPath: null,
   engine: null,
   mapView: null,
   mapViewerInstance: null,
@@ -16,14 +17,30 @@ function showScreen(name) {
 }
 
 async function loadData() {
-  const [locRes, cornerRes, trackRes] = await Promise.all([
+  const [locRes, cornerRes, trackRes, pathRes] = await Promise.all([
     fetch('assets/locations.json'),
     fetch('assets/corners.json'),
     fetch('assets/track-config.json'),
+    fetch('assets/track-path.json'),
   ]);
   state.locations = await locRes.json();
   state.corners = await cornerRes.json();
   state.trackConfig = await trackRes.json();
+  state.trackPath = await pathRes.json();
+  TrackDistance.init(state.trackPath);
+}
+
+// ---------------------------------------------------------------------------
+// IMAGE LIGHTBOX (full-size screenshot view)
+// ---------------------------------------------------------------------------
+function openLightbox(src) {
+  el('#lightbox-img').src = src;
+  el('#image-lightbox').classList.add('visible');
+  document.body.classList.add('no-scroll');
+}
+function closeLightbox() {
+  el('#image-lightbox').classList.remove('visible');
+  document.body.classList.remove('no-scroll');
 }
 
 // ---------------------------------------------------------------------------
@@ -46,6 +63,7 @@ function renderRound() {
   el('#next-round-btn').style.display = 'none';
 
   state.mapView.setLocked(false);
+  state.mapView.resetZoom();
   state.mapView.render(round.guesses, null);
 }
 
@@ -120,6 +138,17 @@ function wireUI() {
   el('#map-back-btn').addEventListener('click', () => showScreen('landing'));
   el('#next-round-btn').addEventListener('click', handleNextRound);
   el('#play-again-btn').addEventListener('click', () => showScreen('landing'));
+
+  const sceneImg = el('#scene-img');
+  el('#scene-expand-btn').addEventListener('click', () => openLightbox(sceneImg.src));
+  sceneImg.addEventListener('click', () => openLightbox(sceneImg.src));
+  el('#lightbox-close-btn').addEventListener('click', closeLightbox);
+  el('#image-lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'image-lightbox') closeLightbox();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
 
   state.mapView = new MapView(el('#map-container'), MAP_DIMS);
   state.mapView.onGuess = handleMapGuess;

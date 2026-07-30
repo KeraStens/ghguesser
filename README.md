@@ -22,6 +22,20 @@ python3 -m http.server 8000
 
 It's 100% static — no backend, no config, nothing else to set up.
 
+## Interaction features
+
+- **Full-size screenshot**: click the photo (or the ✦ button on it) to open
+  it full-screen. Esc, the ✕, or clicking outside the image closes it.
+- **Map zoom**: scroll/pinch to zoom (up to 5×), drag to pan once zoomed,
+  double-click/double-tap to zoom in on that spot, and the −/1:1/+ buttons in
+  the corner do the same. Zoom resets automatically at the start of each
+  round. Guess coordinates are computed from the underlying 0–1 track space,
+  so zooming in doesn't change scoring — it just makes it easier to place the
+  pin precisely.
+- **Fullscreen map**: the ✦ button on the map panel (both in-game and on the
+  standalone Map screen) expands it to fill the viewport for a bigger,
+  easier-to-aim-at view; ✕ or Esc closes it.
+
 ## Swap in real assets
 
 - **Map**: `assets/map-nurburgring.svg` is traced from a real GPS survey of
@@ -69,12 +83,28 @@ It's 100% static — no backend, no config, nothing else to set up.
 - Pin 1: no comparison yet, just a vague read.
 - Pin 2 & 3: compared to the previous pin — "warmer" (closer) or "colder"
   (farther), plus a rough compass bearing toward the truth.
+- Distance is measured **along the track centerline**, not straight-line —
+  both the guess and the true point are projected onto the nearest spot on
+  the GPS-traced racing line (`assets/track-path.json`, 534 points spanning
+  the real 20,832m lap), then scored by the shorter arc between those two
+  spots around the closed loop. A guess on the inside of the Karussell
+  hairpin and the real point just meters away on the other side of the
+  loop won't get credit for being "close" if they're actually on opposite
+  sides of the track by road distance. The connecting line drawn after the
+  final pin traces this same route along the track rather than cutting
+  straight across the infield.
 - Only the **final** pin of a round counts for score. Falloff is linear from
-  `MAX_SCORE_PER_ROUND` at 0m to 0 at the diagonal distance set by
-  `MAP_SPAN_METERS` (tunable in `CONFIG`).
+  `MAX_SCORE_PER_ROUND` at 0m, tuned so the worst possible guess (half the
+  lap away — the max any along-track arc distance can be) bottoms out at 0
+  (`SCORE_FALLOFF` in `CONFIG`).
 - After the 3rd pin, the true point is revealed along with the two nearest
-  named corners (from `assets/corners.json`) — e.g. "Nearest corners:
-  Karussell / Hohe Acht" — so a wrong guess still teaches you the map.
+  named corners (from `assets/corners.json`, also by along-track distance)
+  — e.g. "Nearest corners: Karussell / Hohe Acht" — so a wrong guess still
+  teaches you the map.
+- Regenerating the map? `assets/track-path.json` needs to stay in sync with
+  `assets/map-nurburgring.svg` — both are derived from the same GPS trace
+  (`tools/nordschleife-source.gpx`) using the same projection, so if you
+  retrace the map you should regenerate the path data the same way.
 
 ## Map button
 
