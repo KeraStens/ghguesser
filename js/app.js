@@ -132,6 +132,7 @@ function wireUI() {
   el('#play-btn').addEventListener('click', startGame);
   el('#map-btn').addEventListener('click', openMapViewer);
   el('#map-back-btn').addEventListener('click', () => showScreen('landing'));
+  el('#game-back-btn').addEventListener('click', () => showScreen('landing'));
   el('#next-round-btn').addEventListener('click', handleNextRound);
   el('#play-again-btn').addEventListener('click', () => showScreen('landing'));
 

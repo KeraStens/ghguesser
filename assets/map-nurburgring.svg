@@ -28,9 +28,7 @@
   <line x1="894.0" y1="638.4" x2="916.7" y2="676.1" stroke="#b23a2a" stroke-width="5"/>
   <text x="905.4" y="628.4" text-anchor="middle" fill="#b23a2a" font-family="monospace" font-size="13" font-weight="bold">FINISH</text>
   <!-- corner labels — positioned from real GPS distance-along-track, re-verified against official km markers; leader lines + greedy anti-overlap placement (avoids paddock box) -->
-  <line x1="734.2" y1="759.9" x2="698.2" y2="785.3" stroke="#c98a4b" stroke-width="1" opacity="0.35"/>
-  <circle cx="734.2" cy="759.9" r="5" fill="#c98a4b"/>
-  <text x="698.2" y="785.3" text-anchor="middle" fill="#e9dcc0" font-family="monospace" font-size="15" opacity="0.9">Start/Finish</text>
+  <!-- note: the "Start/Finish" corner point itself has no separate visual marker here — the START/FINISH lines above already mark this spot -->
   <line x1="699.7" y1="784.4" x2="604.7" y2="783.5" stroke="#c98a4b" stroke-width="1" opacity="0.35"/>
   <circle cx="699.7" cy="784.4" r="5" fill="#c98a4b"/>
   <text x="604.7" y="783.5" text-anchor="middle" fill="#e9dcc0" font-family="monospace" font-size="15" opacity="0.9">Antoniusbuche</text>
