@@ -32,13 +32,6 @@
   .marker text { fill: #0b0f0b; font-size: 13px; font-weight: bold; text-anchor: middle; }
   .placed circle { fill: var(--teal); stroke: var(--parchment); stroke-width: 1.5; opacity: 0.85; }
   .placed text { fill: var(--parchment); font-size: 10px; }
-  .line-marker circle { fill: #ffcc66; stroke: #0b0f0b; stroke-width: 1.5; }
-  .track-line { stroke-width: 5; }
-  .track-line-start { stroke: #f2e6c9; }
-  .track-line-finish { stroke: var(--blood); }
-  .track-line-label { font-family: monospace; font-size: 13px; font-weight: bold; text-anchor: middle; }
-  .track-line-label-start { fill: #f2e6c9; }
-  .track-line-label-finish { fill: var(--blood); }
 
   label { display: block; font-size: 12px; color: var(--khaki); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: 0.5px; }
   input[type=text], input[type=number], textarea {
@@ -60,7 +53,6 @@
 
   .shot-preview { max-width: 100%; border-radius: 3px; margin-top: 8px; border: 1px solid rgba(202,182,138,0.2); }
   .coord-readout { font-size: 13px; color: var(--teal); margin-top: 8px; }
-  .line-status { font-size: 12px; color: var(--parchment-dim, #cdbf9a); margin-top: 6px; line-height: 1.6; }
 
   table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
   th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid rgba(202,182,138,0.15); }
@@ -85,22 +77,11 @@
       <input type="file" id="map-file" accept="image/*" />
       <div class="map-wrap" id="map-wrap">
         <img id="map-img" src="../assets/map-nurburgring.svg" alt="map" />
-        <svg id="static-layer" viewBox="0 0 1400 1000" preserveAspectRatio="none"></svg>
         <svg id="marker-layer" viewBox="0 0 1400 1000" preserveAspectRatio="none"></svg>
       </div>
       <p class="hint" id="mode-hint">Click anywhere on the map to set the pending screenshot's coordinate. Teal dots are entries already added. Selecting multiple screenshots queues them — click the map, hit "Add & next", it auto-advances to the next one.</p>
     </div>
 
-    <div class="panel">
-      <h2>Start / Finish Lines</h2>
-      <div class="line-status" id="line-status">Start line: not set &nbsp;·&nbsp; Finish line: not set</div>
-      <button id="pick-start-btn" class="secondary">Pick start line</button>
-      <button id="pick-finish-btn" class="secondary">Pick finish line</button>
-      <button id="clear-lines-btn" class="secondary">Clear both</button>
-      <p class="hint">Click the button, then click two points on the map (one on each edge of the track) to draw the line across it.</p>
-      <button id="copy-track-btn" class="secondary">Copy track-config.json</button>
-      <button id="download-track-btn" class="secondary">Download track-config.json</button>
-    </div>
   </div>
 
   <!-- RIGHT: controls -->
@@ -141,9 +122,6 @@
       <label>locations.json</label>
       <textarea id="load-area" placeholder="Paste your current locations.json here to keep editing it"></textarea>
       <button id="load-btn" class="secondary">Load locations</button>
-      <label>track-config.json</label>
-      <textarea id="load-track-area" placeholder="Paste your current track-config.json here to keep editing it"></textarea>
-      <button id="load-track-btn" class="secondary">Load track lines</button>
     </div>
   </div>
 </div>
@@ -153,7 +131,6 @@ const VIEW_W = 1400, VIEW_H = 1000;
 
 const mapImg = document.getElementById('map-img');
 const markerLayer = document.getElementById('marker-layer');
-const staticLayer = document.getElementById('static-layer');
 const shotFile = document.getElementById('shot-file');
 const shotPreview = document.getElementById('shot-preview');
 const shotId = document.getElementById('shot-id');
@@ -166,16 +143,11 @@ const entriesBody = document.getElementById('entries-body');
 const countEl = document.getElementById('count');
 const queueProgress = document.getElementById('queue-progress');
 const modeHint = document.getElementById('mode-hint');
-const lineStatus = document.getElementById('line-status');
 
 let pendingCoord = null; // {x, y} normalized
 let entries = [];
 let queue = [];      // File objects waiting to be placed
 let queueIndex = 0;  // which one is currently being placed
-
-let trackConfig = { startLine: null, finishLine: null };
-let linePickMode = null;   // null | 'start1' | 'start2' | 'finish1' | 'finish2'
-let linePickFirstPt = null; // {x,y} while awaiting the second click
 
 document.getElementById('map-file').addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -229,11 +201,6 @@ mapImg.addEventListener('click', (e) => {
   const x = (e.clientX - rect.left) / rect.width;
   const y = (e.clientY - rect.top) / rect.height;
 
-  if (linePickMode) {
-    handleLinePickClick(x, y);
-    return;
-  }
-
   pendingCoord = { x, y };
   coordReadout.textContent = `Pending coordinate: x=${x.toFixed(3)}, y=${y.toFixed(3)}`;
   redrawMarkers();
@@ -255,10 +222,6 @@ function redrawMarkers() {
   if (pendingCoord) {
     markerLayer.innerHTML += `<g class="marker" transform="translate(${pendingCoord.x*VIEW_W},${pendingCoord.y*VIEW_H})">
       <circle r="13"/><text dy="5">?</text></g>`;
-  }
-  if (linePickFirstPt) {
-    markerLayer.innerHTML += `<g class="line-marker" transform="translate(${linePickFirstPt.x*VIEW_W},${linePickFirstPt.y*VIEW_H})">
-      <circle r="7"/></g>`;
   }
 }
 
@@ -331,95 +294,6 @@ document.getElementById('load-btn').addEventListener('click', () => {
   }
 });
 
-// ---------------------------------------------------------------------------
-// START / FINISH LINE PICKING
-// ---------------------------------------------------------------------------
-function handleLinePickClick(x, y) {
-  if (linePickMode === 'start1' || linePickMode === 'finish1') {
-    linePickFirstPt = { x, y };
-    linePickMode = linePickMode === 'start1' ? 'start2' : 'finish2';
-    modeHint.textContent = `Click the second point to finish the ${linePickMode === 'start2' ? 'start' : 'finish'} line.`;
-    redrawMarkers();
-    return;
-  }
-  if (linePickMode === 'start2' || linePickMode === 'finish2') {
-    const kind = linePickMode === 'start2' ? 'startLine' : 'finishLine';
-    trackConfig[kind] = {
-      x1: round3(linePickFirstPt.x), y1: round3(linePickFirstPt.y),
-      x2: round3(x), y2: round3(y),
-    };
-    linePickMode = null;
-    linePickFirstPt = null;
-    resetModeHint();
-    redrawMarkers();
-    redrawStaticLayer();
-    updateLineStatus();
-  }
-}
-
-function round3(n) { return Math.round(n * 1000) / 1000; }
-
-function resetModeHint() {
-  modeHint.textContent = 'Click anywhere on the map to set the pending screenshot\'s coordinate. Teal dots are entries already added. Selecting multiple screenshots queues them — click the map, hit "Add & next", it auto-advances to the next one.';
-}
-
-document.getElementById('pick-start-btn').addEventListener('click', () => {
-  linePickMode = 'start1';
-  linePickFirstPt = null;
-  modeHint.textContent = 'Click the first point of the START line on the map.';
-});
-document.getElementById('pick-finish-btn').addEventListener('click', () => {
-  linePickMode = 'finish1';
-  linePickFirstPt = null;
-  modeHint.textContent = 'Click the first point of the FINISH line on the map.';
-});
-document.getElementById('clear-lines-btn').addEventListener('click', () => {
-  trackConfig = { startLine: null, finishLine: null };
-  linePickMode = null;
-  linePickFirstPt = null;
-  resetModeHint();
-  redrawStaticLayer();
-  updateLineStatus();
-  redrawMarkers();
-});
-
-function updateLineStatus() {
-  const s = trackConfig.startLine ? 'set' : 'not set';
-  const f = trackConfig.finishLine ? 'set' : 'not set';
-  lineStatus.textContent = `Start line: ${s} · Finish line: ${f}`;
-}
-
-function redrawStaticLayer() {
-  staticLayer.innerHTML = '';
-  if (trackConfig.startLine) drawTrackLine(trackConfig.startLine, 'start');
-  if (trackConfig.finishLine) drawTrackLine(trackConfig.finishLine, 'finish');
-}
-
-function drawTrackLine(line, kind) {
-  const x1 = line.x1 * VIEW_W, y1 = line.y1 * VIEW_H;
-  const x2 = line.x2 * VIEW_W, y2 = line.y2 * VIEW_H;
-  staticLayer.innerHTML += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="track-line track-line-${kind}"/>
-    <text x="${(x1+x2)/2}" y="${Math.min(y1,y2)-10}" class="track-line-label track-line-label-${kind}">${kind === 'start' ? 'START' : 'FINISH'}</text>`;
-}
-
-document.getElementById('copy-track-btn').addEventListener('click', () => {
-  navigator.clipboard.writeText(JSON.stringify(trackConfig, null, 2));
-  flashButton('copy-track-btn');
-});
-document.getElementById('download-track-btn').addEventListener('click', () => {
-  downloadJSON(trackConfig, 'track-config.json');
-});
-document.getElementById('load-track-btn').addEventListener('click', () => {
-  try {
-    const parsed = JSON.parse(document.getElementById('load-track-area').value);
-    trackConfig = { startLine: parsed.startLine || null, finishLine: parsed.finishLine || null };
-    redrawStaticLayer();
-    updateLineStatus();
-  } catch (err) {
-    alert('Could not parse that JSON: ' + err.message);
-  }
-});
-
 function flashButton(id) {
   const btn = document.getElementById(id);
   const original = btn.textContent;
@@ -435,7 +309,6 @@ function downloadJSON(data, filename) {
   a.click();
 }
 
-updateLineStatus();
 </script>
 </body>
 </html>

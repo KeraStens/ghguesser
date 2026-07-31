@@ -7,7 +7,6 @@ class MapView {
     this.viewH = opts.viewH || 1000;
     this.mapSrc = opts.mapSrc || 'assets/map-nurburgring.svg';
     this._pinLayer = null;
-    this._staticLayer = null;
 
     // zoom/pan state — content is scaled+translated inside a fixed-size viewport (frame)
     this.zoom = 1;
@@ -30,7 +29,6 @@ class MapView {
       <div class="map-frame">
         <div class="map-zoom-inner">
           <img class="map-img" src="${this.mapSrc}" alt="Nordschleife track map" draggable="false" />
-          <svg class="map-static-layer" viewBox="0 0 ${this.viewW} ${this.viewH}" preserveAspectRatio="none"></svg>
           <svg class="map-pin-layer" viewBox="0 0 ${this.viewW} ${this.viewH}" preserveAspectRatio="none"></svg>
         </div>
         <div class="map-controls">
@@ -44,7 +42,6 @@ class MapView {
     `;
     this.frameEl = this.container.querySelector('.map-frame');
     this.innerEl = this.container.querySelector('.map-zoom-inner');
-    this._staticLayer = this.container.querySelector('.map-static-layer');
     this._pinLayer = this.container.querySelector('.map-pin-layer');
 
     this.frameEl.addEventListener('pointerdown', (e) => this._onPointerDown(e));
@@ -210,36 +207,6 @@ class MapView {
       this._escHandler = (e) => { if (e.key === 'Escape') this.setFullscreen(false); };
       window.addEventListener('keydown', this._escHandler);
     }
-  }
-
-  // -------------------------------------------------------------------------
-  // TRACK LINES (start/finish)
-  // -------------------------------------------------------------------------
-  renderTrackConfig(config) {
-    if (!config || !this._staticLayer) return;
-    this._staticLayer.innerHTML = '';
-    if (config.startLine) this._drawTrackLine(config.startLine, 'start');
-    if (config.finishLine) this._drawTrackLine(config.finishLine, 'finish');
-  }
-
-  _drawTrackLine(line, kind) {
-    const ns = 'http://www.w3.org/2000/svg';
-    const x1 = line.x1 * this.viewW, y1 = line.y1 * this.viewH;
-    const x2 = line.x2 * this.viewW, y2 = line.y2 * this.viewH;
-
-    const el = document.createElementNS(ns, 'line');
-    el.setAttribute('x1', x1); el.setAttribute('y1', y1);
-    el.setAttribute('x2', x2); el.setAttribute('y2', y2);
-    el.setAttribute('class', `track-line track-line-${kind}`);
-    this._staticLayer.appendChild(el);
-
-    const label = document.createElementNS(ns, 'text');
-    label.textContent = kind === 'start' ? 'START' : 'FINISH';
-    label.setAttribute('x', (x1 + x2) / 2);
-    label.setAttribute('y', Math.min(y1, y2) - 10);
-    label.setAttribute('text-anchor', 'middle');
-    label.setAttribute('class', `track-line-label track-line-label-${kind}`);
-    this._staticLayer.appendChild(label);
   }
 
   // -------------------------------------------------------------------------

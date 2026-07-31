@@ -455,12 +455,6 @@ img { max-width: 100%; display: block; }
 .mapview-fullscreen .map-fullscreen-btn { display: none; }
 body.no-scroll { overflow: hidden; }
 
-.track-line { stroke-width: 5; }
-.track-line-start { stroke: #f2e6c9; }
-.track-line-finish { stroke: var(--blood); }
-.track-line-label { font-family: var(--font-mono); font-size: 13px; font-weight: bold; text-anchor: middle; }
-.track-line-label-start { fill: #f2e6c9; }
-.track-line-label-finish { fill: var(--blood); }
 
 .pin circle { stroke: var(--parchment); stroke-width: 3; }
 .pin-guess circle { fill: var(--amber); }

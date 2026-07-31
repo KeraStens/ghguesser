@@ -1,6 +1,6 @@
 # Green Hell: Picture Guesser
 
-A GeoGuessr-style game: you're shown a screenshot from an expedition, you drop
+A GeoGuessr-style game: you're shown a screenshot from a Nordschleife lap, you drop
 a pin on the map for where it was taken. 3 pins per picture, with a hot/cold +
 compass tip after each one. Single-player only.
 
@@ -58,12 +58,10 @@ It's 100% static — no backend, no config, nothing else to set up.
     named corner at its known official km marker (e.g. Flugplatz ≈ km 4.3,
     Karussell ≈ km 13.7, Brünnchen ≈ km 16.2 — see nordschleife-btg.net's
     section table for the full list).
-- **Start/finish lines**: no longer baked into the map image — they're data,
-  in `assets/track-config.json`, drawn dynamically on top of the map. Use
-  `tools/location-picker.html`'s "Start / Finish Lines" panel to click two
-  points on the map for each line, then download `track-config.json` and
-  drop it into `assets/`. This means you can adjust them anytime without
-  regenerating the whole map.
+- **Start/finish lines**: permanently baked into `assets/map-nurburgring.svg`
+  (matched to the real start/finish straight). There's no picker for these
+  anymore — if they ever need to move, edit the two `<line>`/`<text>` pairs
+  near the top of the SVG directly (search for "start / finish lines").
 - **Screenshots + true locations**: use `tools/location-picker.html` — open
   it in a browser, click the map where a screenshot was taken, and it builds
   a ready-to-paste `locations.json` for you. Much easier than hand-editing
@@ -127,8 +125,8 @@ js/map.js                click-to-pin map rendering
 js/app.js                wires screens + game together
 assets/locations.json    screenshot -> true map coordinate data
 assets/corners.json      named corner points used for the nearest-corners callout
-assets/track-config.json start/finish line coordinates, drawn dynamically
+assets/track-path.json   GPS-traced centerline + real meters-along-track, used for scoring
 assets/screenshots/      placeholder images (swap with real captures)
-assets/map-nurburgring.svg   stylized Nordschleife track map
+assets/map-nurburgring.svg   GPS-traced Nordschleife map, start/finish lines baked in
 tools/location-picker.html   click-to-place tool for building locations.json
 ```

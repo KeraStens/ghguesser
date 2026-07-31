@@ -1,7 +1,6 @@
 const state = {
   locations: [],
   corners: [],
-  trackConfig: null,
   trackPath: null,
   engine: null,
   mapView: null,
@@ -17,15 +16,13 @@ function showScreen(name) {
 }
 
 async function loadData() {
-  const [locRes, cornerRes, trackRes, pathRes] = await Promise.all([
+  const [locRes, cornerRes, pathRes] = await Promise.all([
     fetch('assets/locations.json'),
     fetch('assets/corners.json'),
-    fetch('assets/track-config.json'),
     fetch('assets/track-path.json'),
   ]);
   state.locations = await locRes.json();
   state.corners = await cornerRes.json();
-  state.trackConfig = await trackRes.json();
   state.trackPath = await pathRes.json();
   TrackDistance.init(state.trackPath);
 }
@@ -114,7 +111,7 @@ function showFinal() {
   el('#final-breakdown').innerHTML = state.engine.rounds.map((r) =>
     `<li>${r.location.name}: <strong>${r.finalScore}</strong> pts (${r.guesses[r.guesses.length - 1].meters}m off)</li>`
   ).join('');
-  el('#final-title').textContent = 'Expedition Complete';
+  el('#final-title').textContent = 'Lap Complete';
 }
 
 // ---------------------------------------------------------------------------
@@ -125,7 +122,6 @@ function openMapViewer() {
   if (!state.mapViewerInstance) {
     state.mapViewerInstance = new MapView(el('#map-viewer-container'), MAP_DIMS);
     state.mapViewerInstance.setLocked(true); // reference only, not a guessing surface
-    state.mapViewerInstance.renderTrackConfig(state.trackConfig);
   }
 }
 
@@ -152,7 +148,6 @@ function wireUI() {
 
   state.mapView = new MapView(el('#map-container'), MAP_DIMS);
   state.mapView.onGuess = handleMapGuess;
-  state.mapView.renderTrackConfig(state.trackConfig);
 }
 
 async function init() {
