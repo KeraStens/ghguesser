@@ -91,10 +91,14 @@ It's 100% static — no backend, no config, nothing else to set up.
   sides of the track by road distance. The connecting line drawn after the
   final pin traces this same route along the track rather than cutting
   straight across the infield.
-- Only the **final** pin of a round counts for score. Falloff is linear from
-  `MAX_SCORE_PER_ROUND` at 0m, tuned so the worst possible guess (half the
-  lap away — the max any along-track arc distance can be) bottoms out at 0
-  (`SCORE_FALLOFF` in `CONFIG`).
+- Only the **final** pin of a round counts for score. Falloff is curved, not
+  linear: `MAX_SCORE_PER_ROUND` (1000) at 0m, dropping to 0 at
+  `SCORE_MAX_DISTANCE_M` (3000m) along a `SCORE_CURVE_POWER`-exponent ease-out
+  curve (default power 2 — quadratic), so precision near the true point is
+  rewarded disproportionately: e.g. by default, 100m off only costs ~66
+  points, but 2500m off leaves only ~28. Both are tunable in `CONFIG`. This
+  only affects the score number — the hot/cold tip between pins still
+  compares raw along-track meters, so it's unaffected by the curve.
 - After the 3rd pin, the true point is revealed along with the two nearest
   named corners (from `assets/corners.json`, also by along-track distance)
   — e.g. "Nearest corners: Karussell / Hohe Acht" — so a wrong guess still

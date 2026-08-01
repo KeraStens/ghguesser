@@ -7,9 +7,9 @@ const CONFIG = {
   MAP_ASPECT_W: 1400,        // must match the map SVG's viewBox width
   MAP_ASPECT_H: 1000,        // must match the map SVG's viewBox height
   MAX_SCORE_PER_ROUND: 1000, // points for a perfect (0m) guess
-  SCORE_FALLOFF: 0.1,        // points lost per meter of error — tuned so the worst possible
-                              // guess (half the 20,832m lap away, the max any arc-distance can be)
-                              // still bottoms out at 0 points
+  SCORE_MAX_DISTANCE_M: 3000, // guesses this far along the track (or farther) score 0
+  SCORE_CURVE_POWER: 2,       // >1 = curved falloff — being close matters disproportionately
+                               // more than being far; 1 would be a plain linear falloff
 };
 
 // ---------------------------------------------------------------------------
@@ -84,7 +84,9 @@ function bearingLabel(fromX, fromY, toX, toY) {
 }
 
 function scoreForMeters(meters) {
-  const score = Math.round(CONFIG.MAX_SCORE_PER_ROUND - meters * CONFIG.SCORE_FALLOFF);
+  if (meters >= CONFIG.SCORE_MAX_DISTANCE_M) return 0;
+  const closeness = 1 - (meters / CONFIG.SCORE_MAX_DISTANCE_M); // 1 at 0m, 0 at max distance
+  const score = Math.round(CONFIG.MAX_SCORE_PER_ROUND * Math.pow(closeness, CONFIG.SCORE_CURVE_POWER));
   return Math.max(0, Math.min(CONFIG.MAX_SCORE_PER_ROUND, score));
 }
 

@@ -95,9 +95,6 @@
       <label>ID (used internally, no spaces)</label>
       <input type="text" id="shot-id" placeholder="e.g. 7-adenauer-forst" />
 
-      <label>Display name</label>
-      <input type="text" id="shot-name" placeholder="e.g. Adenauer Forst" />
-
       <label>Image path (where this file will live in your repo)</label>
       <input type="text" id="shot-path" placeholder="assets/screenshots/your-file.jpg" />
 
@@ -134,7 +131,6 @@ const markerLayer = document.getElementById('marker-layer');
 const shotFile = document.getElementById('shot-file');
 const shotPreview = document.getElementById('shot-preview');
 const shotId = document.getElementById('shot-id');
-const shotName = document.getElementById('shot-name');
 const shotPath = document.getElementById('shot-path');
 const coordReadout = document.getElementById('coord-readout');
 const addBtn = document.getElementById('add-btn');
@@ -175,7 +171,7 @@ function loadCurrentQueueItem() {
   if (queueIndex >= queue.length) {
     queueProgress.textContent = queue.length ? '— all placed' : '';
     shotPreview.style.display = 'none';
-    shotId.value = ''; shotName.value = ''; shotPath.value = '';
+    shotId.value = ''; shotPath.value = '';
     skipBtn.style.display = 'none';
     updateAddState();
     return;
@@ -187,7 +183,6 @@ function loadCurrentQueueItem() {
 
   const base = file.name.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
   shotId.value = uniqueId(base);
-  shotName.value = '';
   shotPath.value = 'assets/screenshots/' + file.name;
   pendingCoord = null;
   coordReadout.textContent = 'Click the map to set coordinates — none set yet.';
@@ -207,7 +202,7 @@ mapImg.addEventListener('click', (e) => {
   updateAddState();
 });
 
-[shotId, shotName].forEach(elx => elx.addEventListener('input', updateAddState));
+shotId.addEventListener('input', updateAddState);
 
 function updateAddState() {
   addBtn.disabled = !(pendingCoord && shotId.value.trim());
@@ -235,7 +230,7 @@ document.getElementById('add-btn').addEventListener('click', () => {
   entries.push({
     id: uniqueId(shotId.value.trim()),
     image: shotPath.value.trim() || `assets/screenshots/${shotId.value.trim()}.jpg`,
-    name: shotName.value.trim() || shotId.value.trim(),
+    name: shotId.value.trim(),
     x: Math.round(pendingCoord.x * 1000) / 1000,
     y: Math.round(pendingCoord.y * 1000) / 1000,
   });
@@ -247,7 +242,7 @@ document.getElementById('add-btn').addEventListener('click', () => {
     loadCurrentQueueItem();
   } else {
     pendingCoord = null;
-    shotId.value = ''; shotName.value = ''; shotPath.value = '';
+    shotId.value = ''; shotPath.value = '';
     shotFile.value = ''; shotPreview.style.display = 'none';
     coordReadout.textContent = 'Click the map to set coordinates — none set yet.';
     updateAddState();

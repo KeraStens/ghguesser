@@ -105,11 +105,17 @@ function handleNextRound() {
   }
 }
 
+function ordinal(n) {
+  const suffixes = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
+}
+
 function showFinal() {
   showScreen('final');
   el('#final-score').textContent = `${state.engine.totalScore} / ${state.engine.maxPossibleScore}`;
-  el('#final-breakdown').innerHTML = state.engine.rounds.map((r) =>
-    `<li>${r.location.name}: <strong>${r.finalScore}</strong> pts (${r.guesses[r.guesses.length - 1].meters}m off)</li>`
+  el('#final-breakdown').innerHTML = state.engine.rounds.map((r, i) =>
+    `<li>${ordinal(i + 1)} guess: <strong>${r.finalScore}</strong> pts (${r.guesses[r.guesses.length - 1].meters}m off)</li>`
   ).join('');
   el('#final-title').textContent = 'Lap Complete';
 }
