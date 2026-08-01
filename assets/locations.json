@@ -1,44 +1,786 @@
 [
   {
-    "id": "1-fuchsroehre",
-    "image": "assets/screenshots/1-river-bend.svg",
-    "name": "Fuchsröhre",
-    "x": 0.1863,
-    "y": 0.453
+    "id": "lfthold-1-",
+    "image": "assets/screenshots/lfthold (1).png",
+    "name": "lfthold-1-",
+    "x": 0.437,
+    "y": 0.864
   },
   {
-    "id": "2-karussell",
-    "image": "assets/screenshots/2-stone-ruins.svg",
-    "name": "Karussell",
-    "x": 0.7065,
-    "y": 0.2542
+    "id": "lfthold-2-",
+    "image": "assets/screenshots/lfthold (2).png",
+    "name": "lfthold-2-",
+    "x": 0.415,
+    "y": 0.91
   },
   {
-    "id": "3-hohe-acht",
-    "image": "assets/screenshots/3-cave-mouth.svg",
-    "name": "Hohe Acht",
-    "x": 0.7787,
-    "y": 0.1785
+    "id": "lfthold-3-",
+    "image": "assets/screenshots/lfthold (3).png",
+    "name": "lfthold-3-",
+    "x": 0.389,
+    "y": 0.915
   },
   {
-    "id": "4-bruennchen",
-    "image": "assets/screenshots/4-swamp-flats.svg",
-    "name": "Brünnchen",
-    "x": 0.8767,
-    "y": 0.3113
+    "id": "lfthold-4-",
+    "image": "assets/screenshots/lfthold (4).png",
+    "name": "lfthold-4-",
+    "x": 0.366,
+    "y": 0.895
   },
   {
-    "id": "5-doettinger-hoehe",
-    "image": "assets/screenshots/5-cliff-view.svg",
-    "name": "Döttinger Höhe",
-    "x": 0.6002,
-    "y": 0.6965
+    "id": "lfthold-5-",
+    "image": "assets/screenshots/lfthold (5).png",
+    "name": "lfthold-5-",
+    "x": 0.352,
+    "y": 0.915
   },
   {
-    "id": "6-aremberg",
-    "image": "assets/screenshots/6-camp-clearing.svg",
-    "name": "Aremberg",
-    "x": 0.1324,
-    "y": 0.5089
+    "id": "lfthold-6-",
+    "image": "assets/screenshots/lfthold (6).png",
+    "name": "lfthold-6-",
+    "x": 0.332,
+    "y": 0.924
+  },
+  {
+    "id": "lfthold-7-",
+    "image": "assets/screenshots/lfthold (7).png",
+    "name": "lfthold-7-",
+    "x": 0.314,
+    "y": 0.916
+  },
+  {
+    "id": "lfthold-8-",
+    "image": "assets/screenshots/lfthold (8).png",
+    "name": "lfthold-8-",
+    "x": 0.301,
+    "y": 0.91
+  },
+  {
+    "id": "lfthold-9-",
+    "image": "assets/screenshots/lfthold (9).png",
+    "name": "lfthold-9-",
+    "x": 0.291,
+    "y": 0.914
+  },
+  {
+    "id": "lfthold-10-",
+    "image": "assets/screenshots/lfthold (10).png",
+    "name": "lfthold-10-",
+    "x": 0.284,
+    "y": 0.915
+  },
+  {
+    "id": "lfthold-11-",
+    "image": "assets/screenshots/lfthold (11).png",
+    "name": "lfthold-11-",
+    "x": 0.276,
+    "y": 0.905
+  },
+  {
+    "id": "lfthold-12-",
+    "image": "assets/screenshots/lfthold (12).png",
+    "name": "lfthold-12-",
+    "x": 0.268,
+    "y": 0.895
+  },
+  {
+    "id": "lfthold-13-",
+    "image": "assets/screenshots/lfthold (13).png",
+    "name": "lfthold-13-",
+    "x": 0.25,
+    "y": 0.874
+  },
+  {
+    "id": "lfthold-14-",
+    "image": "assets/screenshots/lfthold (14).png",
+    "name": "lfthold-14-",
+    "x": 0.237,
+    "y": 0.855
+  },
+  {
+    "id": "lfthold-15-",
+    "image": "assets/screenshots/lfthold (15).png",
+    "name": "lfthold-15-",
+    "x": 0.221,
+    "y": 0.837
+  },
+  {
+    "id": "lfthold-16-",
+    "image": "assets/screenshots/lfthold (16).png",
+    "name": "lfthold-16-",
+    "x": 0.189,
+    "y": 0.803
+  },
+  {
+    "id": "lfthold-17-",
+    "image": "assets/screenshots/lfthold (17).png",
+    "name": "lfthold-17-",
+    "x": 0.174,
+    "y": 0.778
+  },
+  {
+    "id": "lfthold-18-",
+    "image": "assets/screenshots/lfthold (18).png",
+    "name": "lfthold-18-",
+    "x": 0.169,
+    "y": 0.768
+  },
+  {
+    "id": "lfthold-19-",
+    "image": "assets/screenshots/lfthold (19).png",
+    "name": "lfthold-19-",
+    "x": 0.178,
+    "y": 0.689
+  },
+  {
+    "id": "lfthold-20-",
+    "image": "assets/screenshots/lfthold (20).png",
+    "name": "lfthold-20-",
+    "x": 0.172,
+    "y": 0.627
+  },
+  {
+    "id": "lfthold-21-",
+    "image": "assets/screenshots/lfthold (21).png",
+    "name": "lfthold-21-",
+    "x": 0.158,
+    "y": 0.579
+  },
+  {
+    "id": "lfthold-22-",
+    "image": "assets/screenshots/lfthold (22).png",
+    "name": "lfthold-22-",
+    "x": 0.159,
+    "y": 0.598
+  },
+  {
+    "id": "lfthold-23-",
+    "image": "assets/screenshots/lfthold (23).png",
+    "name": "lfthold-23-",
+    "x": 0.155,
+    "y": 0.571
+  },
+  {
+    "id": "lfthold-24-",
+    "image": "assets/screenshots/lfthold (24).png",
+    "name": "lfthold-24-",
+    "x": 0.158,
+    "y": 0.586
+  },
+  {
+    "id": "lfthold-25-",
+    "image": "assets/screenshots/lfthold (25).png",
+    "name": "lfthold-25-",
+    "x": 0.137,
+    "y": 0.545
+  },
+  {
+    "id": "lfthold-26-",
+    "image": "assets/screenshots/lfthold (26).png",
+    "name": "lfthold-26-",
+    "x": 0.116,
+    "y": 0.53
+  },
+  {
+    "id": "lfthold-27-",
+    "image": "assets/screenshots/lfthold (27).png",
+    "name": "lfthold-27-",
+    "x": 0.13,
+    "y": 0.509
+  },
+  {
+    "id": "lfthold-28-",
+    "image": "assets/screenshots/lfthold (28).png",
+    "name": "lfthold-28-",
+    "x": 0.153,
+    "y": 0.5
+  },
+  {
+    "id": "lfthold-29-",
+    "image": "assets/screenshots/lfthold (29).png",
+    "name": "lfthold-29-",
+    "x": 0.178,
+    "y": 0.468
+  },
+  {
+    "id": "lfthold-30-",
+    "image": "assets/screenshots/lfthold (30).png",
+    "name": "lfthold-30-",
+    "x": 0.199,
+    "y": 0.443
+  },
+  {
+    "id": "lfthold-31-",
+    "image": "assets/screenshots/lfthold (31).png",
+    "name": "lfthold-31-",
+    "x": 0.211,
+    "y": 0.405
+  },
+  {
+    "id": "lfthold-32-",
+    "image": "assets/screenshots/lfthold (32).png",
+    "name": "lfthold-32-",
+    "x": 0.209,
+    "y": 0.38
+  },
+  {
+    "id": "lfthold-33-",
+    "image": "assets/screenshots/lfthold (33).png",
+    "name": "lfthold-33-",
+    "x": 0.221,
+    "y": 0.367
+  },
+  {
+    "id": "lfthold-34-",
+    "image": "assets/screenshots/lfthold (34).png",
+    "name": "lfthold-34-",
+    "x": 0.216,
+    "y": 0.342
+  },
+  {
+    "id": "lfthold-35-",
+    "image": "assets/screenshots/lfthold (35).png",
+    "name": "lfthold-35-",
+    "x": 0.237,
+    "y": 0.32
+  },
+  {
+    "id": "lfthold-36-",
+    "image": "assets/screenshots/lfthold (36).png",
+    "name": "lfthold-36-",
+    "x": 0.261,
+    "y": 0.284
+  },
+  {
+    "id": "lfthold-37-",
+    "image": "assets/screenshots/lfthold (37).png",
+    "name": "lfthold-37-",
+    "x": 0.272,
+    "y": 0.266
+  },
+  {
+    "id": "lfthold-38-",
+    "image": "assets/screenshots/lfthold (38).png",
+    "name": "lfthold-38-",
+    "x": 0.271,
+    "y": 0.229
+  },
+  {
+    "id": "lfthold-39-",
+    "image": "assets/screenshots/lfthold (39).png",
+    "name": "lfthold-39-",
+    "x": 0.258,
+    "y": 0.221
+  },
+  {
+    "id": "lfthold-40-",
+    "image": "assets/screenshots/lfthold (40).png",
+    "name": "lfthold-40-",
+    "x": 0.239,
+    "y": 0.202
+  },
+  {
+    "id": "lfthold-41-",
+    "image": "assets/screenshots/lfthold (41).png",
+    "name": "lfthold-41-",
+    "x": 0.25,
+    "y": 0.186
+  },
+  {
+    "id": "lfthold-42-",
+    "image": "assets/screenshots/lfthold (42).png",
+    "name": "lfthold-42-",
+    "x": 0.265,
+    "y": 0.174
+  },
+  {
+    "id": "lfthold-43-",
+    "image": "assets/screenshots/lfthold (43).png",
+    "name": "lfthold-43-",
+    "x": 0.264,
+    "y": 0.159
+  },
+  {
+    "id": "lfthold-44-",
+    "image": "assets/screenshots/lfthold (44).png",
+    "name": "lfthold-44-",
+    "x": 0.27,
+    "y": 0.151
+  },
+  {
+    "id": "lfthold-45-",
+    "image": "assets/screenshots/lfthold (45).png",
+    "name": "lfthold-45-",
+    "x": 0.319,
+    "y": 0.161
+  },
+  {
+    "id": "lfthold-46-",
+    "image": "assets/screenshots/lfthold (46).png",
+    "name": "lfthold-46-",
+    "x": 0.337,
+    "y": 0.154
+  },
+  {
+    "id": "lfthold-47-",
+    "image": "assets/screenshots/lfthold (47).png",
+    "name": "lfthold-47-",
+    "x": 0.354,
+    "y": 0.153
+  },
+  {
+    "id": "lfthold-48-",
+    "image": "assets/screenshots/lfthold (48).png",
+    "name": "lfthold-48-",
+    "x": 0.371,
+    "y": 0.151
+  },
+  {
+    "id": "lfthold-49-",
+    "image": "assets/screenshots/lfthold (49).png",
+    "name": "lfthold-49-",
+    "x": 0.383,
+    "y": 0.155
+  },
+  {
+    "id": "lfthold-50-",
+    "image": "assets/screenshots/lfthold (50).png",
+    "name": "lfthold-50-",
+    "x": 0.388,
+    "y": 0.138
+  },
+  {
+    "id": "lfthold-51-",
+    "image": "assets/screenshots/lfthold (51).png",
+    "name": "lfthold-51-",
+    "x": 0.392,
+    "y": 0.12
+  },
+  {
+    "id": "lfthold-52-",
+    "image": "assets/screenshots/lfthold (52).png",
+    "name": "lfthold-52-",
+    "x": 0.407,
+    "y": 0.111
+  },
+  {
+    "id": "lfthold-53-",
+    "image": "assets/screenshots/lfthold (53).png",
+    "name": "lfthold-53-",
+    "x": 0.438,
+    "y": 0.102
+  },
+  {
+    "id": "lfthold-54-",
+    "image": "assets/screenshots/lfthold (54).png",
+    "name": "lfthold-54-",
+    "x": 0.452,
+    "y": 0.096
+  },
+  {
+    "id": "lfthold-55-",
+    "image": "assets/screenshots/lfthold (55).png",
+    "name": "lfthold-55-",
+    "x": 0.482,
+    "y": 0.07
+  },
+  {
+    "id": "lfthold-56-",
+    "image": "assets/screenshots/lfthold (56).png",
+    "name": "lfthold-56-",
+    "x": 0.485,
+    "y": 0.074
+  },
+  {
+    "id": "lfthold-57-",
+    "image": "assets/screenshots/lfthold (57).png",
+    "name": "lfthold-57-",
+    "x": 0.487,
+    "y": 0.109
+  },
+  {
+    "id": "lfthold-58-",
+    "image": "assets/screenshots/lfthold (58).png",
+    "name": "lfthold-58-",
+    "x": 0.487,
+    "y": 0.139
+  },
+  {
+    "id": "lfthold-59-",
+    "image": "assets/screenshots/lfthold (59).png",
+    "name": "lfthold-59-",
+    "x": 0.505,
+    "y": 0.174
+  },
+  {
+    "id": "lfthold-60-",
+    "image": "assets/screenshots/lfthold (60).png",
+    "name": "lfthold-60-",
+    "x": 0.532,
+    "y": 0.192
+  },
+  {
+    "id": "lfthold-61-",
+    "image": "assets/screenshots/lfthold (61).png",
+    "name": "lfthold-61-",
+    "x": 0.576,
+    "y": 0.202
+  },
+  {
+    "id": "lfthold-62-",
+    "image": "assets/screenshots/lfthold (62).png",
+    "name": "lfthold-62-",
+    "x": 0.583,
+    "y": 0.205
+  },
+  {
+    "id": "lfthold-63-",
+    "image": "assets/screenshots/lfthold (63).png",
+    "name": "lfthold-63-",
+    "x": 0.596,
+    "y": 0.2
+  },
+  {
+    "id": "lfthold-64-",
+    "image": "assets/screenshots/lfthold (64).png",
+    "name": "lfthold-64-",
+    "x": 0.623,
+    "y": 0.22
+  },
+  {
+    "id": "lfthold-65-",
+    "image": "assets/screenshots/lfthold (65).png",
+    "name": "lfthold-65-",
+    "x": 0.651,
+    "y": 0.239
+  },
+  {
+    "id": "lfthold-66-",
+    "image": "assets/screenshots/lfthold (66).png",
+    "name": "lfthold-66-",
+    "x": 0.678,
+    "y": 0.224
+  },
+  {
+    "id": "lfthold-67-",
+    "image": "assets/screenshots/lfthold (67).png",
+    "name": "lfthold-67-",
+    "x": 0.707,
+    "y": 0.202
+  },
+  {
+    "id": "lfthold-68-",
+    "image": "assets/screenshots/lfthold (68).png",
+    "name": "lfthold-68-",
+    "x": 0.733,
+    "y": 0.197
+  },
+  {
+    "id": "lfthold-69-",
+    "image": "assets/screenshots/lfthold (69).png",
+    "name": "lfthold-69-",
+    "x": 0.739,
+    "y": 0.205
+  },
+  {
+    "id": "lfthold-70-",
+    "image": "assets/screenshots/lfthold (70).png",
+    "name": "lfthold-70-",
+    "x": 0.728,
+    "y": 0.221
+  },
+  {
+    "id": "lfthold-71-",
+    "image": "assets/screenshots/lfthold (71).png",
+    "name": "lfthold-71-",
+    "x": 0.706,
+    "y": 0.255
+  },
+  {
+    "id": "lfthold-72-",
+    "image": "assets/screenshots/lfthold (72).png",
+    "name": "lfthold-72-",
+    "x": 0.707,
+    "y": 0.254
+  },
+  {
+    "id": "lfthold-73-",
+    "image": "assets/screenshots/lfthold (73).png",
+    "name": "lfthold-73-",
+    "x": 0.716,
+    "y": 0.254
+  },
+  {
+    "id": "lfthold-74-",
+    "image": "assets/screenshots/lfthold (74).png",
+    "name": "lfthold-74-",
+    "x": 0.726,
+    "y": 0.239
+  },
+  {
+    "id": "lfthold-75-",
+    "image": "assets/screenshots/lfthold (75).png",
+    "name": "lfthold-75-",
+    "x": 0.742,
+    "y": 0.229
+  },
+  {
+    "id": "lfthold-76-",
+    "image": "assets/screenshots/lfthold (76).png",
+    "name": "lfthold-76-",
+    "x": 0.756,
+    "y": 0.221
+  },
+  {
+    "id": "lfthold-77-",
+    "image": "assets/screenshots/lfthold (77).png",
+    "name": "lfthold-77-",
+    "x": 0.776,
+    "y": 0.2
+  },
+  {
+    "id": "lfthold-78-",
+    "image": "assets/screenshots/lfthold (78).png",
+    "name": "lfthold-78-",
+    "x": 0.793,
+    "y": 0.151
+  },
+  {
+    "id": "lfthold-79-",
+    "image": "assets/screenshots/lfthold (79).png",
+    "name": "lfthold-79-",
+    "x": 0.828,
+    "y": 0.167
+  },
+  {
+    "id": "lfthold-80-",
+    "image": "assets/screenshots/lfthold (80).png",
+    "name": "lfthold-80-",
+    "x": 0.831,
+    "y": 0.171
+  },
+  {
+    "id": "lfthold-81-",
+    "image": "assets/screenshots/lfthold (81).png",
+    "name": "lfthold-81-",
+    "x": 0.851,
+    "y": 0.188
+  },
+  {
+    "id": "lfthold-82-",
+    "image": "assets/screenshots/lfthold (82).png",
+    "name": "lfthold-82-",
+    "x": 0.864,
+    "y": 0.208
+  },
+  {
+    "id": "lfthold-83-",
+    "image": "assets/screenshots/lfthold (83).png",
+    "name": "lfthold-83-",
+    "x": 0.868,
+    "y": 0.218
+  },
+  {
+    "id": "lfthold-84-",
+    "image": "assets/screenshots/lfthold (84).png",
+    "name": "lfthold-84-",
+    "x": 0.86,
+    "y": 0.258
+  },
+  {
+    "id": "lfthold-85-",
+    "image": "assets/screenshots/lfthold (85).png",
+    "name": "lfthold-85-",
+    "x": 0.861,
+    "y": 0.261
+  },
+  {
+    "id": "lfthold-86-",
+    "image": "assets/screenshots/lfthold (86).png",
+    "name": "lfthold-86-",
+    "x": 0.88,
+    "y": 0.275
+  },
+  {
+    "id": "lfthold-87-",
+    "image": "assets/screenshots/lfthold (87).png",
+    "name": "lfthold-87-",
+    "x": 0.882,
+    "y": 0.284
+  },
+  {
+    "id": "lfthold-88-",
+    "image": "assets/screenshots/lfthold (88).png",
+    "name": "lfthold-88-",
+    "x": 0.883,
+    "y": 0.288
+  },
+  {
+    "id": "lfthold-89-",
+    "image": "assets/screenshots/lfthold (89).png",
+    "name": "lfthold-89-",
+    "x": 0.884,
+    "y": 0.293
+  },
+  {
+    "id": "lfthold-90-",
+    "image": "assets/screenshots/lfthold (90).png",
+    "name": "lfthold-90-",
+    "x": 0.877,
+    "y": 0.313
+  },
+  {
+    "id": "lfthold-91-",
+    "image": "assets/screenshots/lfthold (91).png",
+    "name": "lfthold-91-",
+    "x": 0.856,
+    "y": 0.311
+  },
+  {
+    "id": "lfthold-92-",
+    "image": "assets/screenshots/lfthold (92).png",
+    "name": "lfthold-92-",
+    "x": 0.845,
+    "y": 0.33
+  },
+  {
+    "id": "lfthold-93-",
+    "image": "assets/screenshots/lfthold (93).png",
+    "name": "lfthold-93-",
+    "x": 0.835,
+    "y": 0.345
+  },
+  {
+    "id": "lfthold-94-",
+    "image": "assets/screenshots/lfthold (94).png",
+    "name": "lfthold-94-",
+    "x": 0.831,
+    "y": 0.371
+  },
+  {
+    "id": "lfthold-95-",
+    "image": "assets/screenshots/lfthold (95).png",
+    "name": "lfthold-95-",
+    "x": 0.831,
+    "y": 0.389
+  },
+  {
+    "id": "lfthold-96-",
+    "image": "assets/screenshots/lfthold (96).png",
+    "name": "lfthold-96-",
+    "x": 0.827,
+    "y": 0.416
+  },
+  {
+    "id": "lfthold-97-",
+    "image": "assets/screenshots/lfthold (97).png",
+    "name": "lfthold-97-",
+    "x": 0.779,
+    "y": 0.479
+  },
+  {
+    "id": "lfthold-98-",
+    "image": "assets/screenshots/lfthold (98).png",
+    "name": "lfthold-98-",
+    "x": 0.768,
+    "y": 0.498
+  },
+  {
+    "id": "lfthold-99-",
+    "image": "assets/screenshots/lfthold (99).png",
+    "name": "lfthold-99-",
+    "x": 0.742,
+    "y": 0.505
+  },
+  {
+    "id": "lfthold-100-",
+    "image": "assets/screenshots/lfthold (100).png",
+    "name": "lfthold-100-",
+    "x": 0.753,
+    "y": 0.507
+  },
+  {
+    "id": "lfthold-101-",
+    "image": "assets/screenshots/lfthold (101).png",
+    "name": "lfthold-101-",
+    "x": 0.725,
+    "y": 0.518
+  },
+  {
+    "id": "lfthold-102-",
+    "image": "assets/screenshots/lfthold (102).png",
+    "name": "lfthold-102-",
+    "x": 0.7,
+    "y": 0.512
+  },
+  {
+    "id": "lfthold-103-",
+    "image": "assets/screenshots/lfthold (103).png",
+    "name": "lfthold-103-",
+    "x": 0.678,
+    "y": 0.513
+  },
+  {
+    "id": "lfthold-104-",
+    "image": "assets/screenshots/lfthold (104).png",
+    "name": "lfthold-104-",
+    "x": 0.667,
+    "y": 0.528
+  },
+  {
+    "id": "lfthold-105-",
+    "image": "assets/screenshots/lfthold (105).png",
+    "name": "lfthold-105-",
+    "x": 0.676,
+    "y": 0.542
+  },
+  {
+    "id": "lfthold-106-",
+    "image": "assets/screenshots/lfthold (106).png",
+    "name": "lfthold-106-",
+    "x": 0.688,
+    "y": 0.552
+  },
+  {
+    "id": "lfthold-107-",
+    "image": "assets/screenshots/lfthold (107).png",
+    "name": "lfthold-107-",
+    "x": 0.704,
+    "y": 0.561
+  },
+  {
+    "id": "lfthold-108-",
+    "image": "assets/screenshots/lfthold (108).png",
+    "name": "lfthold-108-",
+    "x": 0.711,
+    "y": 0.576
+  },
+  {
+    "id": "lfthold-109-",
+    "image": "assets/screenshots/lfthold (109).png",
+    "name": "lfthold-109-",
+    "x": 0.713,
+    "y": 0.597
+  },
+  {
+    "id": "lfthold-110-",
+    "image": "assets/screenshots/lfthold (110).png",
+    "name": "lfthold-110-",
+    "x": 0.707,
+    "y": 0.608
+  },
+  {
+    "id": "lfthold-111-",
+    "image": "assets/screenshots/lfthold (111).png",
+    "name": "lfthold-111-",
+    "x": 0.653,
+    "y": 0.653
+  },
+  {
+    "id": "lfthold-112-",
+    "image": "assets/screenshots/lfthold (112).png",
+    "name": "lfthold-112-",
+    "x": 0.621,
+    "y": 0.676
   }
 ]
