@@ -161,7 +161,13 @@ class RoundState {
 
   get finalScore() {
     if (this.guesses.length === 0) return 0;
-    return this.guesses[this.guesses.length - 1].score;
+    return Math.max(...this.guesses.map(g => g.score));
+  }
+
+  // The guess that produced finalScore — used by the results breakdown
+  get bestGuess() {
+    if (this.guesses.length === 0) return null;
+    return this.guesses.reduce((best, g) => (g.score > best.score ? g : best), this.guesses[0]);
   }
 }
 

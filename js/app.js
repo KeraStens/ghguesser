@@ -86,7 +86,7 @@ function handleMapGuess(x, y) {
     const nearestText = nearest.map(c => c.name).join(' / ');
 
     el('#tip-box').innerHTML =
-      `Final guess: ${entry.meters}m off. +${entry.score} points.<br>` +
+      `Best pin: ${round.bestGuess.meters}m off. +${round.finalScore} points.<br>` +
       `<span class="nearest-corners">Nearest corners: ${nearestText}</span>`;
 
     el('#next-round-btn').style.display = 'inline-block';
@@ -115,7 +115,7 @@ function showFinal() {
   showScreen('final');
   el('#final-score').textContent = `${state.engine.totalScore} / ${state.engine.maxPossibleScore}`;
   el('#final-breakdown').innerHTML = state.engine.rounds.map((r, i) =>
-    `<li>${ordinal(i + 1)} guess: <strong>${r.finalScore}</strong> pts (${r.guesses[r.guesses.length - 1].meters}m off)</li>`
+    `<li>${ordinal(i + 1)} guess: <strong>${r.finalScore}</strong> pts (${r.bestGuess.meters}m off)</li>`
   ).join('');
   el('#final-title').textContent = 'Lap Complete';
 }
