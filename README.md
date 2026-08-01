@@ -91,7 +91,9 @@ It's 100% static — no backend, no config, nothing else to set up.
   sides of the track by road distance. The connecting line drawn after the
   final pin traces this same route along the track rather than cutting
   straight across the infield.
-- Only the **final** pin of a round counts for score. Falloff is curved, not
+- The **best** of the 3 pins counts for score, not necessarily the last one —
+  so a good first guess isn't wasted if pin 2 or 3 ends up worse. Falloff is
+  curved, not
   linear: `MAX_SCORE_PER_ROUND` (1000) at 0m, dropping to 0 at
   `SCORE_MAX_DISTANCE_M` (3000m) along a `SCORE_CURVE_POWER`-exponent ease-out
   curve (default power 2 — quadratic), so precision near the true point is
