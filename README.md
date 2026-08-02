@@ -35,6 +35,11 @@ It's 100% static — no backend, no config, nothing else to set up.
 - **Fullscreen map**: the ✦ button on the map panel (both in-game and on the
   standalone Map screen) expands it to fill the viewport for a bigger,
   easier-to-aim-at view; ✕ or Esc closes it.
+- **Share results**: "Copy results as image" on the final screen renders the
+  score + per-round breakdown to a canvas and copies it to the clipboard as a
+  PNG (`navigator.clipboard.write`), ready to paste into Discord/chat. Falls
+  back to downloading the PNG if the clipboard image API isn't available
+  (older Safari, or a non-secure context).
 
 ## Swap in real assets
 
