@@ -120,6 +120,121 @@ function showFinal() {
   el('#final-title').textContent = 'Lap Complete';
 }
 
+async function copyResultsAsImage() {
+  const btn = el('#copy-results-btn');
+  const originalText = btn.textContent;
+
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const blob = await renderResultsCard();
+
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      btn.textContent = 'Copied!';
+    } else {
+      throw new Error('Clipboard image API not available');
+    }
+  } catch (err) {
+    // Fallback: clipboard image writes aren't supported everywhere (older Safari,
+    // insecure contexts, permission denial) — download the PNG instead.
+    try {
+      const blob = await renderResultsCard();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'green-hell-results.png';
+      a.click();
+      btn.textContent = 'Downloaded (clipboard unavailable)';
+    } catch (err2) {
+      btn.textContent = "Couldn't generate image";
+    }
+  }
+  setTimeout(() => { btn.textContent = originalText; }, 2200);
+}
+
+function renderResultsCard() {
+  const rounds = state.engine.rounds;
+  const W = 900;
+  const rowH = 42;
+  const H = 340 + rounds.length * rowH;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // background
+  ctx.fillStyle = '#0b0f0b';
+  ctx.fillRect(0, 0, W, H);
+  const grad = ctx.createRadialGradient(W/2, H*0.4, 40, W/2, H*0.4, W*0.7);
+  grad.addColorStop(0, '#1c2e20');
+  grad.addColorStop(1, '#0b0f0b');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = 'rgba(202,182,138,0.25)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(16, 16, W - 32, H - 32);
+
+  // eyebrow
+  ctx.fillStyle = '#c98a4b';
+  ctx.font = '600 16px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('NORDSCHLEIFE — THE GREEN HELL', W / 2, 62);
+
+  // title
+  ctx.fillStyle = '#f2e6c9';
+  ctx.font = '400 56px "Staatliches", sans-serif';
+  ctx.fillText('LAP COMPLETE', W / 2, 118);
+
+  // total score
+  ctx.fillStyle = '#c98a4b';
+  ctx.font = '600 20px "JetBrains Mono", monospace';
+  ctx.fillText('TOTAL SCORE', W / 2, 168);
+  ctx.fillStyle = '#f2e6c9';
+  ctx.font = '400 64px "Staatliches", sans-serif';
+  ctx.fillText(`${state.engine.totalScore} / ${state.engine.maxPossibleScore}`, W / 2, 232);
+
+  // divider
+  ctx.strokeStyle = 'rgba(202,182,138,0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(W * 0.18, 258);
+  ctx.lineTo(W * 0.82, 258);
+  ctx.stroke();
+
+  // per-round breakdown
+  ctx.textAlign = 'left';
+  const rowStartY = 300;
+  rounds.forEach((r, i) => {
+    const y = rowStartY + i * rowH;
+    ctx.fillStyle = 'rgba(242,230,201,0.06)';
+    if (i % 2 === 0) ctx.fillRect(48, y - 26, W - 96, rowH - 8);
+
+    ctx.fillStyle = '#f2e6c9';
+    ctx.font = '600 17px "JetBrains Mono", monospace';
+    ctx.fillText(`${ordinal(i + 1)} guess`, 68, y);
+
+    ctx.fillStyle = '#cdbf9a';
+    ctx.font = '400 15px "JetBrains Mono", monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${r.bestGuess.meters}m off`, W - 68 - 130, y);
+
+    ctx.fillStyle = '#c98a4b';
+    ctx.font = '700 17px "JetBrains Mono", monospace';
+    ctx.fillText(`${r.finalScore} pts`, W - 68, y);
+    ctx.textAlign = 'left';
+  });
+
+  // footer
+  ctx.fillStyle = 'rgba(205,191,154,0.6)';
+  ctx.font = '400 13px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('Green Hell: Picture Guesser', W / 2, H - 26);
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('toBlob failed')), 'image/png');
+  });
+}
+
 // ---------------------------------------------------------------------------
 // MAP VIEWER (menu)
 // ---------------------------------------------------------------------------
@@ -141,6 +256,7 @@ function wireUI() {
   el('#game-back-btn').addEventListener('click', () => showScreen('landing'));
   el('#next-round-btn').addEventListener('click', handleNextRound);
   el('#play-again-btn').addEventListener('click', () => showScreen('landing'));
+  el('#copy-results-btn').addEventListener('click', copyResultsAsImage);
 
   const sceneImg = el('#scene-img');
   el('#scene-expand-btn').addEventListener('click', () => openLightbox(sceneImg.src));
