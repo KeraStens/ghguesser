@@ -31,7 +31,16 @@ It's 100% static — no backend, no config, nothing else to set up.
   the corner do the same. Zoom resets automatically at the start of each
   round. Guess coordinates are computed from the underlying 0–1 track space,
   so zooming in doesn't change scoring — it just makes it easier to place the
-  pin precisely.
+  pin precisely. Zoom is implemented by changing the map SVG's `viewBox`
+  directly rather than a CSS `transform: scale()` — a transform just
+  stretches an already-rasterized composited layer (blurry at high zoom on
+  most browsers), while a `viewBox` change makes the browser re-render true
+  vector geometry at every level, so it stays crisp at 5× the same as at 1×.
+- **Corner names**: the "Aa" button cycles three states — Auto (default: dots
+  always visible, hover a dot to reveal its name), On (all names always
+  visible), and Off (nothing shown, not even the dots). Each `MapView`
+  instance tracks this independently, so the in-game map and the standalone
+  Map screen can be set differently.
 - **Fullscreen map**: the ✦ button on the map panel (both in-game and on the
   standalone Map screen) expands it to fill the viewport for a bigger,
   easier-to-aim-at view; ✕ or Esc closes it.
@@ -62,7 +71,12 @@ It's 100% static — no backend, no config, nothing else to set up.
     then walk cumulative haversine distance along the trace to place each
     named corner at its known official km marker (e.g. Flugplatz ≈ km 4.3,
     Karussell ≈ km 13.7, Brünnchen ≈ km 16.2 — see nordschleife-btg.net's
-    section table for the full list).
+    section table for the full list). All 42 official corners are placed
+    this way (up from an initial smaller set) — label positions are chosen
+    by a search that enforces a hard minimum clearance from the track ribbon,
+    the paddock box, the title text, and other labels (accounting for each
+    label's actual text width, not just its anchor point), so text never
+    overlaps the road or overlaps another label as more corners get added.
 - **Start/finish lines**: permanently baked into `assets/map-nurburgring.svg`
   (matched to the real start/finish straight). There's no picker for these
   anymore — if they ever need to move, edit the two `<line>`/`<text>` pairs

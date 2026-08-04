@@ -382,8 +382,26 @@ img { max-width: 100%; display: block; }
   transform-origin: 0 0;
   will-change: transform;
 }
-.map-img { width: 100%; height: 100%; object-fit: cover; user-select: none; display: block; pointer-events: none; }
+.map-img { width: 100%; height: 100%; display: block; user-select: none; pointer-events: none; }
+.map-svg-holder { width: 100%; height: 100%; }
+img.map-img { object-fit: cover; } /* only used by the no-JS/no-fetch fallback path */
 .map-pin-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Corner name display — three states, cycled by the "Aa" control button:
+   Auto (default): dots always visible, name + leader line reveal on hover.
+   On: everything always visible. Off: nothing shown, including the dots. */
+.corner-dot { opacity: 1; transition: opacity 0.12s ease; }
+.corner-label, .corner-leader { opacity: 0; transition: opacity 0.12s ease; }
+.corner-marker:hover .corner-label,
+.corner-marker:hover .corner-leader { opacity: 1; }
+
+.map-labels-on .corner-label,
+.map-labels-on .corner-leader { opacity: 1; }
+
+.map-labels-off .corner-dot,
+.map-labels-off .corner-label,
+.map-labels-off .corner-leader { opacity: 0; }
+.map-labels-off .corner-marker { pointer-events: none; }
 
 .map-controls {
   position: absolute;
@@ -411,6 +429,9 @@ img { max-width: 100%; display: block; }
 .map-ctrl-btn:hover { background: rgba(201,138,75,0.25); border-color: var(--amber); }
 .map-zoom-reset { font-size: 10px; letter-spacing: 0.5px; }
 .map-fullscreen-btn { font-size: 13px; }
+.map-labels-btn { font-size: 11px; font-weight: 600; }
+.map-labels-btn[data-mode="on"] { color: var(--amber); border-color: var(--amber); }
+.map-labels-btn[data-mode="off"] { opacity: 0.5; }
 
 .map-fullscreen-close {
   position: absolute;
