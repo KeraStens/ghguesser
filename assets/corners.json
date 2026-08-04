@@ -1,28 +1,18 @@
 [
   {
+    "name": "Start/Finish",
+    "x": 0.5244,
+    "y": 0.7599
+  },
+  {
     "name": "Antoniusbuche",
-    "x": 0.5009,
-    "y": 0.7833
+    "x": 0.4998,
+    "y": 0.7844
   },
   {
     "name": "Tiergarten",
-    "x": 0.4695,
-    "y": 0.8137
-  },
-  {
-    "name": "Hohenrain",
-    "x": 0.4312,
-    "y": 0.8799
-  },
-  {
-    "name": "T13",
-    "x": 0.3887,
-    "y": 0.9155
-  },
-  {
-    "name": "Sabine-Schmitz-Kurve",
-    "x": 0.3582,
-    "y": 0.9129
+    "x": 0.4598,
+    "y": 0.8286
   },
   {
     "name": "Hatzenbach",
@@ -31,23 +21,13 @@
   },
   {
     "name": "Hocheichen",
-    "x": 0.2229,
-    "y": 0.8401
-  },
-  {
-    "name": "Quiddelbacher Höhe",
-    "x": 0.1807,
-    "y": 0.7862
+    "x": 0.2179,
+    "y": 0.8352
   },
   {
     "name": "Flugplatz",
     "x": 0.1781,
     "y": 0.6911
-  },
-  {
-    "name": "Kottenborn",
-    "x": 0.1732,
-    "y": 0.637
   },
   {
     "name": "Schwedenkreuz",
@@ -70,64 +50,14 @@
     "y": 0.3768
   },
   {
-    "name": "Metzgesfeld",
-    "x": 0.2561,
-    "y": 0.2946
-  },
-  {
     "name": "Kallenhard",
-    "x": 0.2508,
-    "y": 0.1868
-  },
-  {
-    "name": "Spiegelkurve",
-    "x": 0.2727,
-    "y": 0.1452
-  },
-  {
-    "name": "Dreifach-Rechts",
-    "x": 0.3044,
-    "y": 0.1427
-  },
-  {
-    "name": "Wehrseifen",
-    "x": 0.346,
-    "y": 0.1534
-  },
-  {
-    "name": "Breidscheid",
-    "x": 0.3875,
-    "y": 0.1453
-  },
-  {
-    "name": "Ex-Mühle",
-    "x": 0.4115,
-    "y": 0.1088
-  },
-  {
-    "name": "Lauda-Links",
-    "x": 0.4572,
-    "y": 0.0905
+    "x": 0.2579,
+    "y": 0.1803
   },
   {
     "name": "Bergwerk",
     "x": 0.4872,
     "y": 0.0847
-  },
-  {
-    "name": "Kesselchen",
-    "x": 0.5359,
-    "y": 0.1957
-  },
-  {
-    "name": "Mutkurve",
-    "x": 0.6316,
-    "y": 0.2295
-  },
-  {
-    "name": "Klostertal",
-    "x": 0.6772,
-    "y": 0.2253
   },
   {
     "name": "Steilstrecke",
@@ -165,39 +95,14 @@
     "y": 0.3113
   },
   {
-    "name": "Eiskurve",
-    "x": 0.8445,
-    "y": 0.3207
-  },
-  {
     "name": "Pflanzgarten",
     "x": 0.8299,
     "y": 0.3751
   },
   {
-    "name": "Sprunghügel",
-    "x": 0.8193,
-    "y": 0.422
-  },
-  {
-    "name": "Pflanzgarten II",
-    "x": 0.7898,
-    "y": 0.4555
-  },
-  {
-    "name": "Stefan-Bellof-S",
-    "x": 0.7692,
-    "y": 0.491
-  },
-  {
     "name": "Schwalbenschwanz",
     "x": 0.6993,
     "y": 0.5118
-  },
-  {
-    "name": "Kleines Karussell",
-    "x": 0.6685,
-    "y": 0.5202
   },
   {
     "name": "Galgenkopf",
